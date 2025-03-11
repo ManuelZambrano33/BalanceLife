@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:front_balancelife/modulos/Habito/data/model/habit_model.dart';
-import 'package:front_balancelife/modulos/Habito/state/habit_provider.dart';
+import 'package:front_balancelife/modulos/modulo_habito/data/model/habit_model.dart';
+import 'package:front_balancelife/modulos/modulo_habito/state/habit_provider.dart';
 void main() async {
   try {
     List<HabitModel> habits = await HabitProvider.getAllHabits();

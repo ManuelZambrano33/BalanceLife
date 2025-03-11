@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../modelview/water_tracker_viewmodel.dart';
+import '../view_model/water_tracker_viewmodel.dart';
 
 class WaterTrackerView extends StatelessWidget {
   const WaterTrackerView({Key? key}) : super(key: key);
