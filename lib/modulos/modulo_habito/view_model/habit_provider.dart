@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../data/model/habit_model.dart';
+import '../model/enum/habit_model.dart';
 
 class HabitProvider {
   
