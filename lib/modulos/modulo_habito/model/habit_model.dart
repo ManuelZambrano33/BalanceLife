@@ -1,6 +1,14 @@
 
-import 'habit_enums.dart';
+import 'enum/habit_enums.dart';
+import 'dart:convert';
 
+List<HabitModel> habitListModelFromJson(String str) =>
+  List<HabitModel>.from(json.decode(str).map((x) => HabitModel.fromJson(x)));
+
+String habitListModelToJson(List<HabitModel> data) =>
+  json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+  
 class HabitModel {
   String id;
   String name;

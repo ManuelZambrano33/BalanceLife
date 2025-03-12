@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:front_balancelife/modulos/modulo_agua/repo/water_tracker_repository.dart';
 import 'package:provider/provider.dart';
-import 'package:front_balancelife/modulos/modulo_agua/view/water_tracker_view.dart';
-import 'package:front_balancelife/modulos/modulo_agua/view_model/water_tracker_viewmodel.dart';
+import 'modulos/modulo_home/view/home_view.dart';
+import 'modulos/modulo_home/view_model/home_viewmodel.dart';
+import 'modulos/modulo_agua/view/water_tracker_view.dart';
+import 'modulos/modulo_agua/view_model/water_tracker_viewmodel.dart';
+import 'modulos/modulo_agua/repo/water_tracker_repository.dart';
 
 void main() {
-  final repository = WaterTrackerRepository(); 
-
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => WaterTrackerViewModel(repository), 
-      child: const MyApp(),
-    ),
-  );
+  runApp(const BalanceLifeApp());
 }
 
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class BalanceLifeApp extends StatelessWidget {
+  const BalanceLifeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const WaterTrackerView(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HomeViewModel()),
+        ChangeNotifierProvider(
+            create: (_) => WaterTrackerViewModel(WaterTrackerRepository())),
+      ],
+      child: MaterialApp(
+        title: 'Balance Life',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          brightness: Brightness.light,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const HomeView(),
+          '/water_tracker': (context) => const WaterTrackerView(),
+        },
+      ),
     );
   }
 }
