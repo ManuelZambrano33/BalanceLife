@@ -1,4 +1,3 @@
-enum HabitCategory { salud, ejercicio, relajacion, estudio }
-
+enum HabitCategory { estadisticas, alimentacion, hidratacion, sueno, minijuegos}
 
 enum HabitReminder { manana, tarde, noche }

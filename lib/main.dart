@@ -11,6 +11,12 @@ import 'package:front_balancelife/modulos/modulo_agua/view/water_tracker_view.da
 
 import 'package:front_balancelife/modulos/modulo_estadisticas/viewmodels/stats_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/stat_view.dart';
+import 'package:front_balancelife/modulos/modulo_habito/view_model/habit_view_model.dart';
+import 'package:front_balancelife/modulos/modulo_habito/view/habits_view.dart';
+
+import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart';
+
+
 
 void main() {
   runApp(
@@ -24,7 +30,12 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (context) => StatsViewModel()
-        ), 
+        ),
+        ChangeNotifierProvider(
+          create: (context) => HabitViewModel()
+        ),  
+
+
       ],
       child: const MyApp(),
     ),
@@ -44,6 +55,8 @@ class MyApp extends StatelessWidget {
         '/water_tracker': (context) => const WaterTrackerView(),
         '/stats': (context) => const StatsView(), 
         '/menuEstadisticas' : (context) => const MenuEstadisticas(),
+        '/habits' : (context) =>  HabitsView(),
+        '/addHabit' : (context) => AddHabitView(), 
       },
     );
   }
