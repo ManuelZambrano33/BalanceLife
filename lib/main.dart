@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         '/stats': (context) => const StatsView(), 
         '/menuEstadisticas' : (context) => const MenuEstadisticas(),
         '/habits' : (context) =>  HabitsView(),
-        '/addHabit' : (context) => AddHabitView(), // sin argumentos
+        '/addHabit' : (context) => AddHabitView(), 
       },
     );
   }
