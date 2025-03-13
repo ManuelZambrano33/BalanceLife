@@ -28,16 +28,16 @@ class HomeViewModel extends ChangeNotifier {
       route: "/sleep",
     ),
     HabitModel(
-      title: "Mini Juegos",
-      iconPath: "assets/mini_juegos.png",
+      title: "Habitos",
+      iconPath: "assets/habit.png",
       color: Colors.yellow.shade300,
-      route: "/mini_games",
+      route: "/habits",
     ),
     HabitModel(
-      title: "Estadísticas",
-      iconPath: "assets/estadisticas.png",
+      title: "Mini juegos",
+      iconPath: "assets/mini_juegos.png",
       color: Colors.blueGrey.shade600,
-      route: "/menuEstadisticas",
+      route: "/mini_games",
     ),
   ];
 

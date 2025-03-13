@@ -35,7 +35,7 @@ class HomeView extends StatelessWidget {
             Expanded(
               child: GridView.builder(
                 shrinkWrap: true,  
-                 physics: NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 300,
                   crossAxisSpacing: 12,
