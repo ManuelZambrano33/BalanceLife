@@ -5,6 +5,8 @@ import 'modulos/modulo_home/view_model/home_viewmodel.dart';
 import 'modulos/modulo_agua/view/water_tracker_view.dart';
 import 'modulos/modulo_agua/view_model/water_tracker_viewmodel.dart';
 import 'modulos/modulo_agua/repo/water_tracker_repository.dart';
+import 'modulos/modulo_habito/view_model/habit_view_model.dart';
+import 'modulos/modulo_habito/view/habits_view.dart';
 
 void main() {
   runApp(const BalanceLifeApp());
@@ -18,8 +20,8 @@ class BalanceLifeApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeViewModel()),
-        ChangeNotifierProvider(
-            create: (_) => WaterTrackerViewModel(WaterTrackerRepository())),
+        ChangeNotifierProvider(create: (_) => WaterTrackerViewModel(WaterTrackerRepository())),
+        ChangeNotifierProvider(create: (_) => HabitViewModel()),
       ],
       child: MaterialApp(
         title: 'Balance Life',
@@ -33,6 +35,7 @@ class BalanceLifeApp extends StatelessWidget {
         routes: {
           '/': (context) => const HomeView(),
           '/water_tracker': (context) => const WaterTrackerView(),
+          '/habits': (context) => HabitsView(),
         },
       ),
     );

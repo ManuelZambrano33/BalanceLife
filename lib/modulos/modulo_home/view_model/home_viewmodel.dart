@@ -8,7 +8,7 @@ class HomeViewModel extends ChangeNotifier {
     HabitModel(title: "Alimentación Saludable", iconPath: "assets/alimentacion.png", color: Colors.purple.shade200, route: "/healthy_eating"),
     HabitModel(title: "Sueño", iconPath: "assets/sueno.png", color: Colors.grey.shade700, route: "/sleep"),
     HabitModel(title: "Mini Juegos", iconPath: "assets/mini_juegos.png", color: Colors.yellow.shade300, route: "/mini_games"),
-    HabitModel(title: "Estadísticas", iconPath: "assets/estadisticas.png", color: Colors.blueGrey.shade600, route: "/statistics"),
+    HabitModel(title: "Habitos", iconPath: "assets/estadisticas.png", color: Colors.blueGrey.shade600, route: "/habits"),
   ];
 
   List<HabitModel> get habits => _habits;

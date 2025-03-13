@@ -6,7 +6,7 @@ import 'package:front_balancelife/modulos/modulo_habito/view_model/habit_view_mo
 import 'package:front_balancelife/modulos/modulo_habito/repository/habit_service.dart';
 void main() async {
   try {
-    List<HabitModel> habits = await HabitService.getAllHabits();
+    List<HabitModel> habits = await HabitService.getHabits();
     print("Lista de hábitos recibidos:");
     for (var habit in habits) {
       print("ID: ${habit.id}, Nombre: ${habit.name}, Estado: ${habit.done}");

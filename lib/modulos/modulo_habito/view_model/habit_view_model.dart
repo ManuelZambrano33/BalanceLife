@@ -1,36 +1,41 @@
-import 'dart:convert';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import '../model/habit_model.dart';
 import '../repository/habit_service.dart';
 
 class HabitViewModel extends ChangeNotifier {
+  final HabitService _habitService = HabitService();
+  List<HabitModel> _habits = [];
+  bool _isLoading = false;
 
-  bool loading = false;
-  List<HabitModel> habitListModel = [];
-  HabitModel _selectedHabit;
+  List<HabitModel> get habits => _habits;
+  bool get isLoading => _isLoading;
 
-
-
-HabitViewModel(){
-  getAllHabits();
-}
-
-
-getHabits() async {
-    setLoading(true);
-    var response = await HabitService.getAllHabits();
-    if (response is Success) {
-      setHabitListModel(response.response as List<HabitModel>);
-    }
-    if (response is Failure) {
-      UserError userError = UserError(
-        code: response.code,
-        message: response.errorResponse,
-      );
-      setUserError(userError);
-    }
-    setLoading(false);
+  HabitViewModel() {
+    fetchHabits();
   }
 
+  void setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  Future<void> fetchHabits() async {
+    setLoading(true);
+    try {
+      _habits = await _habitService.getAllHabits();
+    } catch (e) {
+      print("Error: $e");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  Future<void> toggleHabit(String habitId) async {
+    int index = _habits.indexWhere((h) => h.id == habitId);
+    if (index != -1) {
+      _habits[index].done = !_habits[index].done;
+      notifyListeners();
+      await _habitService.toggleHabitCompletion(habitId, _habits[index].done);
+    }
+  }
 }
