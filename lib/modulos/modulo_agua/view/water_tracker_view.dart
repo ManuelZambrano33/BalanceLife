@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../view_model/water_tracker_viewmodel.dart';
 
 class WaterTrackerView extends StatelessWidget {
-  const WaterTrackerView({Key? key}) : super(key: key);
+  const WaterTrackerView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class WaterTrackerView extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                Container(
+                SizedBox(
                   width: double.infinity,
                   height: 300,
                   child: Stack(

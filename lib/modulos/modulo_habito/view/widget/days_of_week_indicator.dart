@@ -20,14 +20,14 @@ class DaysOfWeekIndicator extends StatelessWidget {
   final double circleSize;
 
   const DaysOfWeekIndicator({
-    Key? key,
+    super.key,
     required this.selectedDays,
     required this.selectedColor,
     required this.selectedTextColor,
     required this.unselectedColor,
     required this.unselectedTextColor,
     this.circleSize = 25,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

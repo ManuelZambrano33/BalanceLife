@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:front_balancelife/modulos/modulo_agua/repo/water_tracker_repository.dart';
+import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
 import 'package:provider/provider.dart';
-import 'package:front_balancelife/modulos/modulo_agua/view/water_tracker_view.dart';
+
+import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
+
+import 'package:front_balancelife/modulos/modulo_agua/repo/water_tracker_repository.dart';
 import 'package:front_balancelife/modulos/modulo_agua/view_model/water_tracker_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_agua/view/water_tracker_view.dart';
 
-  void main() {
-  final repository = WaterTrackerRepository(); 
+import 'package:front_balancelife/modulos/modulo_estadisticas/viewmodels/stats_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_estadisticas/views/stat_view.dart';
 
+void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => WaterTrackerViewModel(repository), 
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => HomeViewModel()
+          ),  
+        ChangeNotifierProvider(
+          create: (context) => WaterTrackerViewModel(WaterTrackerRepository()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StatsViewModel()
+        ), 
+      ],
       child: const MyApp(),
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -23,7 +38,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const WaterTrackerView(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeView(),
+        '/water_tracker': (context) => const WaterTrackerView(),
+        '/stats': (context) => const StatsView(), 
+        '/menuEstadisticas' : (context) => const MenuEstadisticas(),
+      },
     );
   }
 }
