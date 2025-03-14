@@ -11,7 +11,7 @@ class CustomMenuButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(8),
       child: SizedBox(
-        width: 155, // Ancho fijo para el botón
+        width:   MediaQuery.of(context).size.width * 0.8,// Ancho fijo para el botón
         height: 80, 
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -29,7 +29,7 @@ class CustomMenuButton extends StatelessWidget {
             text,
             style: const TextStyle(
               fontSize: 18,
-              color: Color(0xFF3F414E),
+              color: Color.fromARGB(255, 34, 34, 36),
             ),
             overflow: TextOverflow.visible, // Asegura que el texto se pueda romper en varias líneas
             softWrap: true, 

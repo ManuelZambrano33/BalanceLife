@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../view_model/water_tracker_viewmodel.dart';
 
@@ -43,10 +44,10 @@ class WaterTrackerView extends StatelessWidget {
                         top: 50,
                         right: 10,
                         child: SizedBox(
-                          width: 150,
-                          height: 150,
-                          child: Image.asset(
-                            'assets/hidratacion.png',
+                          width: 170,
+                          height: 170,
+                          child: SvgPicture.asset(
+                            'assets/hidratacion.svg',
                             fit: BoxFit.contain,
                           ),
                         ),
