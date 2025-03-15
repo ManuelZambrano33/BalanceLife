@@ -42,10 +42,10 @@ class WaterTrackerView extends StatelessWidget {
                       ),
                       Positioned(
                         top: 50,
-                        right: 10,
+                        right: 15,
                         child: SizedBox(
-                          width: 170,
-                          height: 170,
+                          width: 150,
+                          height: 150,
                           child: SvgPicture.asset(
                             'assets/hidratacion.svg',
                             fit: BoxFit.contain,

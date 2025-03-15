@@ -38,11 +38,11 @@ class MenuEstadisticas extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 10,
-                    right: 10,
+                    top: 20,
+                    right: 20,
                     child: SizedBox(
-                      width: 250,
-                      height: 250,
+                      width: 200,
+                      height: 200,
                       child: SvgPicture.asset(
                         'assets/estadisticas.svg',
                         width: 130,
