@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_habito/model/config_colors.dart';
 import '../model/habit_model.dart';
 
 
@@ -33,7 +34,7 @@ class HabitDetailView extends StatelessWidget {
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
-                    color: habit.days[index] ? Color(0xFFB6A4E9) : Colors.grey[200],
+                    color: habit.days[index] ? HabitColors.primary : Colors.grey[200],
                     shape: BoxShape.circle,
                   ),
                   alignment: Alignment.center,
@@ -50,7 +51,7 @@ class HabitDetailView extends StatelessWidget {
             SizedBox(height: 8),
             Chip(
               label: Text(habit.reminder.name),
-              backgroundColor: Color(0xFFB6A4E9),
+              backgroundColor: HabitColors.lightPrimary,
               labelStyle: TextStyle(color: Colors.white),
             ),
             Spacer(),
@@ -59,7 +60,7 @@ class HabitDetailView extends StatelessWidget {
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFB6A4E9),
+                backgroundColor: HabitColors.lightPrimary,
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
               ),
