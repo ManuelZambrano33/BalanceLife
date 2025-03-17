@@ -23,11 +23,16 @@ class _AddHabitViewState extends State<AddHabitView> {
     final habitViewModel = Provider.of<HabitViewModel>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
-      body: SingleChildScrollView(
+      appBar:
+      AppBar(
+        backgroundColor: HabitColors.primary,
+        title: Text('Añadir hábito', style: TextStyle(color: const Color.fromARGB(255, 255, 250, 250)) ),
+        iconTheme: IconThemeData(color: const Color.fromARGB(255,  255, 250, 250)),  
+      ),
+      body:
+       SingleChildScrollView(
         child: Column(
           children: [
-            // 🟣 Parte de arriba: Header Morado
             Container(
               decoration: BoxDecoration(
                 color: HabitColors.primary,
@@ -36,25 +41,17 @@ class _AddHabitViewState extends State<AddHabitView> {
                   bottomRight: Radius.circular(40),
                 ),
               ),
-              padding: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 40),
+              padding: EdgeInsets.only(top: 5, bottom:20),
               child: Stack(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Añadir hábito',
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                       SizedBox(height: 20),
                       Center(
                         child: SvgPicture.asset(
                           'assets/habit.svg',
-                          height: 180,
+                          height: 150,
                         ),
                       ),
                     ],
