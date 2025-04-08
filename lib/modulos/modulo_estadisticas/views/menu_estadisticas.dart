@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/widgets/custom_button_menu_estadistica.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar%20.dart';
 
 class MenuEstadisticas extends StatelessWidget {
   const MenuEstadisticas({super.key});
@@ -78,9 +79,7 @@ class MenuEstadisticas extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-          // Espacio entre el texto y los botones
 
-            // Columna con las filas de botones
             Column(
               mainAxisAlignment: MainAxisAlignment.center, // Centrado verticalmente
               children: [
@@ -115,6 +114,7 @@ class MenuEstadisticas extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavBar(),  
     );
   }
 }
