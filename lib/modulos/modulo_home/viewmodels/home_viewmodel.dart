@@ -8,14 +8,14 @@ class HomeViewModel extends ChangeNotifier {
       iconPath: "assets/hidratacion.svg",
       color: Colors.orange.shade200,
       route: "/water_tracker",
-      height: 200,
+      height: 225,
     ),
     HabitModel(
       title: "Actividad Física",
       iconPath: "assets/actividad_fisica.svg",
       color: Colors.blue.shade200,
       route: "/exercise",
-      height: 200,
+      height: 210,
     ),
     HabitModel(
       title: "Alimentación Saludable",
@@ -43,7 +43,7 @@ class HomeViewModel extends ChangeNotifier {
       iconPath: "assets/habit.svg",
       color: const Color.fromRGBO(168,194,86,1),
       route: "/habits",
-      height: 190,
+      height: 210,
     ),
   ];
 
