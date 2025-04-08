@@ -25,9 +25,8 @@ class _AddHabitViewState extends State<AddHabitView> {
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
       body: SingleChildScrollView(
-        child: Column(
+         child: Column(
           children: [
-            // 🟣 Parte de arriba: Header Morado
             Container(
               decoration: BoxDecoration(
                 color: HabitColors.primary,
@@ -59,11 +58,9 @@ class _AddHabitViewState extends State<AddHabitView> {
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),
-
             SizedBox(height: 24),
 
             // Campo de texto del nombre

@@ -15,7 +15,6 @@ class HabitCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Generar una altura aleatoria entre 150 y 250 (puedes ajustar estos valores)
-    double randomHeight = Random().nextDouble() * 100 + 150;
 
     return GestureDetector(
       onTap: () {
@@ -27,7 +26,7 @@ class HabitCard extends StatelessWidget {
         height: habit.height,
         width: 200, // Asignar la altura aleatoria generada
         child: Container(
-          margin: const EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(bottom: 15),
           decoration: BoxDecoration(
             color: habit.color,
             borderRadius: BorderRadius.circular(16),
