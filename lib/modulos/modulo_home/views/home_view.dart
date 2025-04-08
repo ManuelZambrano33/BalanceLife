@@ -70,7 +70,8 @@ class HomeView extends StatelessWidget {
           }
 
           if (index == 1) { // Navegar a Estadísticas
-              Navigator.push(
+              Navigator.push(git 
+
                 context,
                 MaterialPageRoute(builder: (context) => const MenuEstadisticas()),
               );
