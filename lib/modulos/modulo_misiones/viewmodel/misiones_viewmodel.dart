@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:modulo_misiones/model/misiones_model.dart';
-import 'package:modulo_misiones/repo/misiones_repository.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/model/misiones_model.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/repo/misiones_repository.dart';
+
 
 
 class DesafioViewModel extends ChangeNotifier {

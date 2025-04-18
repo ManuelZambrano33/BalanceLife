@@ -1,4 +1,4 @@
-import 'package:modulo_misiones/model/misiones_model.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/model/misiones_model.dart';
 
 class DesafioRepo {
   List<Desafio> getMisiones() {

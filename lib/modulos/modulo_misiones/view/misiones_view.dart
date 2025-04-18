@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modulo_misiones/viewmodel/misiones_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/viewmodel/misiones_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class DesafioView extends StatelessWidget {
