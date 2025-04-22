@@ -14,9 +14,48 @@ class HomeConfigView extends StatelessWidget {
     final homeViewModel = Provider.of<HomeConfigViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Configuración de Cuenta'),
-        automaticallyImplyLeading: false,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(180),
+        child: Container(
+          height: 190,
+          decoration: const BoxDecoration(
+            color: Color(0xFF4E5567),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(40),
+              bottomRight: Radius.circular(40),
+            ),
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                top: 45,
+                left: 16,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+
+              Positioned(
+                top: 120,
+                left: 35,
+                child: Text(
+                  'Cuenta',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
+              
+            ],
+          ),
+        ),
       ),
       body: homeViewModel.isLoading
           ? Center(child: CircularProgressIndicator())
