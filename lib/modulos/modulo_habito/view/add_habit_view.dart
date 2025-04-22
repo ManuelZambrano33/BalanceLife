@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:front_balancelife/modulos/modulo_habito/model/config_colors.dart';
+import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../view_model/habit_view_model.dart';
 import '../model/habit_model.dart';
@@ -22,12 +25,11 @@ class _AddHabitViewState extends State<AddHabitView> {
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
       body: SingleChildScrollView(
-        child: Column(
+         child: Column(
           children: [
-            // 🟣 Parte de arriba: Header Morado
             Container(
               decoration: BoxDecoration(
-                color: Color(0xFFB6A4E9),
+                color: HabitColors.primary,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
@@ -49,25 +51,16 @@ class _AddHabitViewState extends State<AddHabitView> {
                       ),
                       SizedBox(height: 20),
                       Center(
-                        child: Image.asset(
-                          'assets/habit.png',
+                        child: SvgPicture.asset(
+                          'assets/habit.svg',
                           height: 180,
                         ),
                       ),
                     ],
                   ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/estadisticas.png'),
-                      radius: 20,
-                    ),
-                  ),
                 ],
               ),
             ),
-
             SizedBox(height: 24),
 
             // Campo de texto del nombre
@@ -140,7 +133,7 @@ class _AddHabitViewState extends State<AddHabitView> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFB6A4E9),
+                  backgroundColor: HabitColors.primary,
                   padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
                 ),
@@ -173,31 +166,44 @@ class _AddHabitViewState extends State<AddHabitView> {
   }
 
   Widget _buildCategorySelector() {
-    final icons = [
-      'assets/actividad_fisica.png',
-      'assets/alimentacion.png',
-      'assets/hidratacion.png',
-      'assets/sueno.png',
-      'assets/mini_juegos.png',
-    ];
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(icons.length, (index) {
-        return GestureDetector(
-          onTap: () => setState(() => selectedCategoryIndex = index),
-          child: Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: selectedCategoryIndex == index ? Color(0xFFB6A4E9) : Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey[300]!),
-            ),
-            child: Image.asset(icons[index], height: 50, width: 50),
-          ),
-        );
-      }),
+final viewModel = Provider.of<HomeViewModel>(context);
+    
+    // final icons = [
+    //   'assets/actividad_fisica.svg',
+    //   'assets/alimentacion.svg',
+    //   'assets/hidratacion.svg',
+    //   'assets/sueno.svg',
+    //   'assets/mini_juegos.svg',
+    // ];
+
+return Row( 
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: List.generate(viewModel.habits.length - 1, (index) {
+    bool isSelected = selectedCategoryIndex == index;
+    
+    return GestureDetector(
+      onTap: () => setState(() => selectedCategoryIndex = index),
+      child: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color:  viewModel.habits[index].color, // Fondo morado para todos
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey[300]!),
+          boxShadow: isSelected
+              ? [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10, offset: Offset(0, 4))] // Sombra cuando es seleccionado
+              : [], // Sin sombra cuando no está seleccionado
+        ),
+        child: SvgPicture.asset(
+          viewModel.habits[index].iconPath, 
+          height: 50, 
+          width: 50,
+        ),
+      ),
     );
+  }),
+);
+
   }
 
   Widget _buildDaysSelector() {
@@ -216,7 +222,7 @@ class _AddHabitViewState extends State<AddHabitView> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: selectedDays[index] ? Color(0xFFB6A4E9) : Colors.white,
+              color: selectedDays[index] ? HabitColors.lightPrimary : Colors.white,
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey[300]!),
             ),
@@ -251,7 +257,7 @@ class _AddHabitViewState extends State<AddHabitView> {
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
             decoration: BoxDecoration(
-              color: isSelected ? Color(0xFFB6A4E9) : Colors.white,
+              color: isSelected ? HabitColors.lightPrimary : Colors.white,
               borderRadius: BorderRadius.circular(32),
               border: Border.all(color: Colors.grey[300]!),
             ),

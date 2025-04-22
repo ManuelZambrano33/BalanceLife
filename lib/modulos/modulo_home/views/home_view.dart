@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar%20.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/home_viewmodel.dart';
 import 'widgets/habit_card.dart';
@@ -10,74 +11,90 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<HomeViewModel>(context);
-    
+    final firstColumnHabits = viewModel.habits.sublist(0, 3);
+    final secondColumnHabits = viewModel.habits.sublist(3);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Buenos días, Andrea"), //VA EL NOMBRE DEL USUARIO LOGUEADO
-        actions: [
-          CircleAvatar(
-            backgroundImage: AssetImage('assets/avatar.png'), 
+      body: Stack(
+        children: [
+          // Nubes de fondo
+          Positioned(
+            top: 120,
+            child: SvgPicture.asset(
+              'assets/nubes.svg',
+              fit: BoxFit.fitWidth, 
+            ),
           ),
-          SizedBox(width: 10),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          
-          children: [
-            SizedBox(height: 20),
-            Text(
-              "¿Qué hábito quieres trabajar hoy?", 
-            style: TextStyle(fontSize: 18)
+
+          Positioned(
+            top: 200,
+            left: 0,
+            right: 0,
+            child: SvgPicture.asset(
+              'assets/Rectangle.svg',
+              fit: BoxFit.fitWidth,
             ),
-            SizedBox(height: 20),
-            Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,  
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 300,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 80,
-                  childAspectRatio: 1.2,
+          ),
+
+          // Contenido principal
+          Column(
+            
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Textos FIJOS
+              Padding(
+                
+                padding: const EdgeInsets.only(top: 75.0, left: 18.0, right: 18.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "¡Hola, usuario!",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "¿Qué hábito quieres trabajar hoy?",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                    ),
+                    const SizedBox(height: 40),
+                  ],
                 ),
-                itemCount: viewModel.habits.length,
-                itemBuilder: (context, index) {
-                  final habit = viewModel.habits[index];
-                  return HabitCard(habit: habit);
-                },
               ),
-            ),
-          ],
-        ),
-      ),
-
-      // TODO: AQUÍ EL NAVIGATOR SE DEBE MOVER A UN COMPONENTE GENERAL, para ser utilizado en todas pa
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Estadísticas"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Ajustes"),
+              
+              // Área SCROLLABLE de las tarjetas
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: firstColumnHabits
+                                .map((habit) => HabitCard(habit: habit))
+                                .toList(),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            children: secondColumnHabits
+                                .map((habit) => HabitCard(habit: habit))
+                                .toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
-          onTap: (index) {
-
-          if (index == 0) {
-               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomeView()),
-              );
-          }
-
-          if (index == 1) { // Navegar a Estadísticas
-              Navigator.push(git 
-
-                context,
-                MaterialPageRoute(builder: (context) => const MenuEstadisticas()),
-              );
-            }
-          }
       ),
+      bottomNavigationBar: CustomBottomNavBar(),  
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../model/habit_model.dart';
 import '../habit_detail_view.dart'; // Asegúrate de importar la vista de detalle
 import 'habit_days_selector.dart';
@@ -74,10 +75,10 @@ class HabitCard extends StatelessWidget {
               Container(
                 width: 60,
                 height: 60,
-                child: Image.asset(
-                  'assets/${habit.category.name}.png',
+                child: SvgPicture.asset(
+                  'assets/${habit.category.name}.svg',
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) {
+                  placeholderBuilder: (context) {
                     return Icon(Icons.image_not_supported, size: 40, color: Colors.grey[400]);
                   },
                 ),
