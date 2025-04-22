@@ -3,9 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../models/habit_model.dart';
 
 
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:math';  // Importa esta librería para generar números aleatorios
+// Importa esta librería para generar números aleatorios
 
 class HabitCard extends StatelessWidget {
   final HabitModel habit;
