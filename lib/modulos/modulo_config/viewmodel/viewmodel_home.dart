@@ -3,13 +3,13 @@ import 'package:front_balancelife/modulos/modulo_config/model/settings_model.dar
 import 'package:front_balancelife/modulos/modulo_config/repo/config/settings_repository.dart';
  
 
-class HomeViewModel extends ChangeNotifier {
+class HomeConfigViewModel extends ChangeNotifier {
   final SettingsRepository _settingsRepository;
   SettingsModel? _userSettings;
   bool _isLoading = false;
   String _errorMessage = '';
 
-  HomeViewModel(this._settingsRepository);
+  HomeConfigViewModel(this._settingsRepository);
 
   SettingsModel? get userSettings => _userSettings;
   bool get isLoading => _isLoading;

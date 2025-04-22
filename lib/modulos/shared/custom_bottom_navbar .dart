@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_config/view/home_view.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
 import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/model/misiones_model.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/view/misiones_view.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   const CustomBottomNavBar({super.key});
@@ -22,8 +25,8 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
         BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Estadísticas"),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Ajustes"),
-        BottomNavigationBarItem(icon: Icon(Icons.account_circle_rounded), label: "Perfil"),         
+        BottomNavigationBarItem(icon: Icon(Icons.gamepad_rounded), label: "Juegos"),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Ajustes"),         
       ],
       onTap: (index) {
         setState(() {
@@ -41,8 +44,16 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             MaterialPageRoute(builder: (context) => const MenuEstadisticas()), // Navegar a Estadísticas
           );
         } else if (index == 2) {
-          // Aquí puedes agregar la lógica para ir a "Ajustes"
-          print('Navegar a Ajustes');
+                    Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) =>  DesafioView()), // Navegar a Estadísticas
+          );
+        }
+        else if (index == 3) {
+                    Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) =>  HomeConfigView()), // Navegar a Estadísticas
+          );
         }
       },
     );

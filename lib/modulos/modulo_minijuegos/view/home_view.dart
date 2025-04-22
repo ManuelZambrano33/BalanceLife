@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar%20.dart';
 import '../viewmodel/home_viewmodel.dart';
 
-class HomeView extends StatelessWidget {
+class HomeMiniJuegosView extends StatelessWidget {
   final HomeViewModel viewModel = HomeViewModel();  
 
-  HomeView({super.key});
+  HomeMiniJuegosView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +122,8 @@ class HomeView extends StatelessWidget {
           const SizedBox(height: 30),
         ],
       ),
+      bottomNavigationBar: CustomBottomNavBar(),  
+
     );
   }
 }

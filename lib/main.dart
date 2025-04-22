@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_config/repo/config/settings_repository.dart';
+import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
 import 'package:front_balancelife/modulos/modulo_logros/view/logro_page.dart';
+import 'package:front_balancelife/modulos/modulo_minijuegos/repo/user_repository.dart';
 import 'package:front_balancelife/modulos/modulo_minijuegos/view/fruit_game_view.dart';
+import 'package:front_balancelife/modulos/modulo_minijuegos/view/home_view.dart';
 import 'package:front_balancelife/modulos/modulo_minijuegos/view/memory_game_view.dart';
+import 'package:front_balancelife/modulos/modulo_minijuegos/viewmodel/fruit_game_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/viewmodel/misiones_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_sleep/view/sleep_page.dart';
+import 'package:front_balancelife/modulos/modulo_sleep/viewmodel/sleep_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
@@ -31,6 +39,18 @@ import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart
         ChangeNotifierProvider(
           create: (context) => HabitViewModel()
         ),  
+        ChangeNotifierProvider(
+          create: (context) => SleepViewModel()
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FruitGameViewModel(UserRepository(), 1) // TODO: SIN ESTO NO SERVÍA EL minijuego2, revisar qué es esto.
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DesafioViewModel()
+        ),
+        ChangeNotifierProvider(
+              create: (context) => HomeConfigViewModel(SettingsRepository())
+        ),
       ],
       child: const MyApp(),
     ),
@@ -55,6 +75,8 @@ class MyApp extends StatelessWidget {
         '/minijuego1': (context) => MemoryGameView(),
         '/minijuego2': (context) => FruitGameView(),
         '/logros': (context) => LogroPage(),
+        '/sleep_page': (context) =>  SleepPage(),
+        '/home_juegos': (context) =>  HomeMiniJuegosView(),
 
       },
     );

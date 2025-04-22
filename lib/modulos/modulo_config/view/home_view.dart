@@ -8,10 +8,10 @@ import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home
 import 'package:provider/provider.dart';
 
 
-class HomeView extends StatelessWidget {
+class HomeConfigView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final homeViewModel = Provider.of<HomeViewModel>(context);
+    final homeViewModel = Provider.of<HomeConfigViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(

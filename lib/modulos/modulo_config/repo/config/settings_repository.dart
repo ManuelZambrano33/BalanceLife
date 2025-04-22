@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
  
 
 class SettingsRepository {
-  final String apiUrl = "https://api.tuapp.com/user";   
+  final String apiUrl = "https://api.tuapp.com/user";     // TODO: REVISAR QUÉ ES ESTO PORQUE EL SITIO NO ESTÁ NI DISPONIBLE.
 
   Future<SettingsModel> fetchUserSettings() async {
     final response = await http.get(Uri.parse(apiUrl));
