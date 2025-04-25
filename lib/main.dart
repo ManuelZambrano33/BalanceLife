@@ -45,6 +45,9 @@ import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart
         ChangeNotifierProvider(
           create: (context) => FruitGameViewModel(UserRepository(), 1) // TODO: SIN ESTO NO SERVÍA EL minijuego2, revisar qué es esto.
         ),
+        Provider<UserRepository>(
+          create: (_) => UserRepository(),
+        ),
         ChangeNotifierProvider(
           create: (context) => DesafioViewModel()
         ),
