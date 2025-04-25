@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../models/habit_model.dart';
 
 
@@ -34,7 +33,7 @@ class HabitCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(habit.iconPath, height: 90, width: 90),
+              Image.asset(habit.iconPath, height: 90, width: 90),
               Text(
                 habit.title,
                 style: const TextStyle(
