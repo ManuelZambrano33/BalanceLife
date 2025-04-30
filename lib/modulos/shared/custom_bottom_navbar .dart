@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/home_view.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
 import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
-import 'package:front_balancelife/modulos/modulo_misiones/model/misiones_model.dart';
 import 'package:front_balancelife/modulos/modulo_misiones/view/misiones_view.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
@@ -20,13 +19,13 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     return BottomNavigationBar(
       backgroundColor: const Color(0xFFF5F5F5),
       currentIndex: _currentIndex, // Establecer el ítem seleccionado
-      selectedItemColor: const Color(0xFF333333), // Color de íconos seleccionados
+      selectedItemColor: const Color.fromARGB(255, 0, 0, 0), // Color de íconos seleccionados
       unselectedItemColor: const Color.fromARGB(85, 86, 72, 72), // Color de íconos no seleccionados
       items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
         BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Estadísticas"),
         BottomNavigationBarItem(icon: Icon(Icons.gamepad_rounded), label: "Juegos"),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Ajustes"),         
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),         
       ],
       onTap: (index) {
         setState(() {
