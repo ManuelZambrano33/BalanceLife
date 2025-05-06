@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_auth/view/login_view.dart';
+import 'package:front_balancelife/modulos/modulo_auth/view/register_view.dart';
+import 'package:front_balancelife/modulos/modulo_auth/viewmodels/login_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_auth/viewmodels/register_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_config/repo/config/settings_repository.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
@@ -43,6 +47,12 @@ import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart
           create: (context) => SleepViewModel()
         ),
         ChangeNotifierProvider(
+          create: (context) => LoginViewModel()
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RegisterViewModel()
+        ),
+        ChangeNotifierProvider(
           create: (context) => FruitGameViewModel(UserRepository(), 1) // TODO: SIN ESTO NO SERVÍA EL minijuego2, revisar qué es esto.
         ),
         Provider<UserRepository>(
@@ -60,6 +70,7 @@ import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart
   );
 }
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -67,20 +78,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         '/': (context) => const HomeView(),
+        '/login': (context) => LoginView(),
+        '/register': (context) => RegisterView(),
         '/water_tracker': (context) => const WaterTrackerView(),
         '/stats': (context) => const StatsView(), 
-        '/menuEstadisticas' : (context) => const MenuEstadisticas(),
-        '/habits' : (context) =>  HabitsView(),
-        '/addHabit' : (context) => AddHabitView(), 
+        '/menuEstadisticas': (context) => const MenuEstadisticas(),
+        '/habits': (context) => HabitsView(),
+        '/addHabit': (context) => AddHabitView(),
         '/minijuego1': (context) => MemoryGameView(),
         '/minijuego2': (context) => FruitGameView(),
         '/logros': (context) => LogroPage(),
-        '/sleep_page': (context) =>  SleepPage(),
-        '/home_juegos': (context) =>  HomeMiniJuegosView(),
-
+        '/sleep_page': (context) => SleepPage(),
+        '/home_juegos': (context) => HomeMiniJuegosView(),
       },
     );
   }

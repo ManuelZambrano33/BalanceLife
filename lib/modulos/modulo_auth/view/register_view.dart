@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../viewmodels/login_viewmodel.dart';
+import '../viewmodels/register_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<LoginViewModel>(context);
+    final viewModel = Provider.of<RegisterViewModel>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -33,7 +33,7 @@ class LoginView extends StatelessWidget {
             ),
           ),
 
-          // Contenido del formulario
+          // Contenido principal (Formulario)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Center(
@@ -42,7 +42,7 @@ class LoginView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      'INICIAR SESIÓN',
+                      'REGISTRARSE',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -50,6 +50,17 @@ class LoginView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 30),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: 'Nombre',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        prefixIcon: const Icon(Icons.person),
+                      ),
+                      onChanged: (value) => viewModel.nombre = value,
+                    ),
+                    const SizedBox(height: 20),
                     TextField(
                       decoration: InputDecoration(
                         labelText: 'Correo electrónico',
@@ -81,19 +92,19 @@ class LoginView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () => viewModel.login(context),
+                      onPressed: () => viewModel.register(context),
                       child: const Text(
-                        'Iniciar sesión',
+                        'Registrarse',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/register');
+                        Navigator.pop(context);
                       },
                       child: const Text(
-                        '¿No tienes cuenta? Regístrate aquí',
+                        '¿Ya tienes cuenta? Inicia sesión aquí',
                         style: TextStyle(
                           color: Color(0xFF8E24AA),
                           fontWeight: FontWeight.w600,
