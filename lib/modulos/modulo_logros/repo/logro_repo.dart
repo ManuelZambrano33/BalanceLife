@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LogroRepo {
-  final String apiUrl = "http://localhost:3000/api/logros"; 
+  final String apiUrl = "http://10.153.76.115:1802/api/ModuloLogro/todos"; 
 
   Future<List<Logro>> fetchLogros() async {
     final response = await http.get(Uri.parse(apiUrl));

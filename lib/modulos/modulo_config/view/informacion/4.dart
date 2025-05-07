@@ -18,6 +18,8 @@ Recuerda que la hidratación no solo depende del agua pura. Los alimentos como f
 Escucha a tu cuerpo: Si sientes sed, es una señal de que necesitas beber más agua. Mantente hidratado para asegurar un buen funcionamiento de tu cuerpo.
 ''';
 
+  const Info4({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

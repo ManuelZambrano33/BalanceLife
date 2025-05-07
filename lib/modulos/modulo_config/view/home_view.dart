@@ -4,13 +4,17 @@ import 'package:front_balancelife/modulos/modulo_config/view/config/config_view.
 import 'package:front_balancelife/modulos/modulo_config/view/informacion/info_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/notificaciones/notificaciones_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
  
 import 'package:provider/provider.dart';
 
 
 class HomeConfigView extends StatelessWidget {
+  const HomeConfigView({super.key});
+
   @override
   Widget build(BuildContext context) {
+    int currentPageIndex = 3; 
     final homeViewModel = Provider.of<HomeConfigViewModel>(context);
 
     return Scaffold(
@@ -116,16 +120,20 @@ class HomeConfigView extends StatelessWidget {
                     SizedBox(height: 380),
                     ElevatedButton(
                       onPressed: () {
+                        Navigator.pushReplacementNamed(context, '/');
                       },
-                      child: Text('Cerrar Sesión'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF9C27B0),
                         foregroundColor: Colors.white,
                         padding: EdgeInsets.symmetric(vertical: 16),
                       ),
+                      child: Text('Cerrar Sesión'),
                     ),
                   ],
                 ),
+      bottomNavigationBar: NavBar(
+        currentPageIndex: currentPageIndex,
+      )
     );
   }
 

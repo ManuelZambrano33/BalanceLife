@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SleepNowPage extends StatelessWidget {
+  const SleepNowPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

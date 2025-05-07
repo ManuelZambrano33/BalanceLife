@@ -14,6 +14,8 @@ import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/theme_v
 import 'package:provider/provider.dart';
 
 class ConfigView extends StatelessWidget {
+  const ConfigView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

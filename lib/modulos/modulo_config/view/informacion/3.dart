@@ -14,6 +14,8 @@ Recuerda que las bebidas como jugos y té también aportan hidratación, pero el
 Tu cuerpo necesita agua para funcionar correctamente. No olvides beber suficiente cada día.
 ''';
 
+  const Info3({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

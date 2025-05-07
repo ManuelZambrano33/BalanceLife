@@ -10,6 +10,8 @@ La actividad física también mejora la calidad del sueño, incrementa los nivel
 Establecer una rutina de ejercicio, aunque sea leve o moderada, puede marcar una gran diferencia en la calidad de vida a largo plazo.
 ''';
 
+  const Info1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

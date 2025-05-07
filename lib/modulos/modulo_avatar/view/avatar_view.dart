@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 
 class AvatarView extends StatefulWidget {
+  const AvatarView({super.key});
+
   @override
   _AvatarViewState createState() => _AvatarViewState();
 }

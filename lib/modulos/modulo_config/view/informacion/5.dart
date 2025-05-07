@@ -16,6 +16,8 @@ Respetar tus ciclos circadianos es crucial para mejorar la calidad de tu sueño,
 
 ''';
 
+  const Info5({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

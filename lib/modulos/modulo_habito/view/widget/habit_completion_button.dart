@@ -6,7 +6,7 @@ import '../../view_model/habit_view_model.dart';
 class HabitCompletionButton extends StatelessWidget {
   final HabitModel habit;
 
-  HabitCompletionButton({required this.habit});
+  const HabitCompletionButton({super.key, required this.habit});
 
   @override
   Widget build(BuildContext context) {

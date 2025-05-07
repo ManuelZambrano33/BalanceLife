@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/widgets/custom_button_menu_estadistica.dart';
-import 'package:front_balancelife/modulos/shared/custom_bottom_navbar%20.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 
 class MenuEstadisticas extends StatelessWidget {
   const MenuEstadisticas({super.key});
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = 1;
     return Scaffold(
       body: Center(
         child: Column(
@@ -114,7 +115,9 @@ class MenuEstadisticas extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),  
+        bottomNavigationBar: NavBar(
+        currentPageIndex: currentIndex,
+      ),
     );
   }
 }

@@ -8,7 +8,7 @@ import 'habit_completion_button.dart';
 class HabitCard extends StatelessWidget {
   final HabitModel habit;
 
-  HabitCard({required this.habit});
+  const HabitCard({super.key, required this.habit});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class HabitCard extends StatelessWidget {
 
               // Imagen a la derecha
               SizedBox(width: 12),
-              Container(
+              SizedBox(
                 width: 60,
                 height: 60,
                 child: SvgPicture.asset(

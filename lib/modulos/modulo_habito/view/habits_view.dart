@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_habito/model/config_colors.dart';
-import 'package:front_balancelife/modulos/shared/custom_bottom_navbar%20.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import '../view_model/habit_view_model.dart';
 import 'widget/habit_card.dart';
 
 class HabitsView extends StatelessWidget {
+  const HabitsView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final habitViewModel = Provider.of<HabitViewModel>(context);
@@ -47,7 +49,7 @@ class HabitsView extends StatelessWidget {
         backgroundColor: HabitColors.primary,
         child: Icon(Icons.add, color: Colors.white),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),  
+      // bottomNavigationBar: CustomBottomNavBar(),  
     );
   }
 

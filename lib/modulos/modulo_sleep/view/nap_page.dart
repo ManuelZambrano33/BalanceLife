@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../repo/notification_service.dart'; // Importa el servicio de notificaciones
 
 class NapPage extends StatefulWidget {
+  const NapPage({super.key});
+
   @override
   _NapPageState createState() => _NapPageState();
 }

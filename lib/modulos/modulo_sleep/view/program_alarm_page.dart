@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProgramAlarmPage extends StatefulWidget {
+  const ProgramAlarmPage({super.key});
+
   @override
   _ProgramAlarmPageState createState() => _ProgramAlarmPageState();
 }

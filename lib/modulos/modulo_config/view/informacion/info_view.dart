@@ -9,6 +9,8 @@ import 'package:front_balancelife/modulos/modulo_config/view/informacion/tuto.da
  
 
 class InfoView extends StatelessWidget {
+  const InfoView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
