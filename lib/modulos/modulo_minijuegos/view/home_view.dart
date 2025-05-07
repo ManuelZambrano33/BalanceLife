@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import '../viewmodel/home_viewmodel.dart';
 
 class HomeMiniJuegosView extends StatelessWidget {

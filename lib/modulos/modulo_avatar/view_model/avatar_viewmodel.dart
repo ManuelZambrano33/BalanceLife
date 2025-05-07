@@ -10,33 +10,33 @@ class AvatarItem {
 class AvatarViewModel extends ChangeNotifier {
   List<AvatarItem> skins = [
     AvatarItem(imagePath: 'assets/skin1.png', isLocked: false),
-    AvatarItem(imagePath: 'assets/skin2.png', isLocked: true),
+    AvatarItem(imagePath: 'assets/skin2.png', isLocked: false),
     AvatarItem(imagePath: 'assets/skin3.png', isLocked: false),
   ];
 
   List<AvatarItem> hairs = [
     AvatarItem(imagePath: 'assets/hair1.png'),
-    AvatarItem(imagePath: 'assets/hair2.png', isLocked: true),
-    AvatarItem(imagePath: 'assets/hair3.png', isLocked: true),
+    AvatarItem(imagePath: 'assets/hair2.png', isLocked: false),
+    AvatarItem(imagePath: 'assets/hair3.png', isLocked: false),
     AvatarItem(imagePath: 'assets/hair4.png', isLocked: false),
     AvatarItem(imagePath: 'assets/hair5.png', isLocked: false),
   ];
 
   List<AvatarItem> shirts = [
     AvatarItem(imagePath: 'assets/shirt1.png'),
-    AvatarItem(imagePath: 'assets/shirt2.png', isLocked: true),
+    AvatarItem(imagePath: 'assets/shirt2.png', isLocked: false),
     AvatarItem(imagePath: 'assets/shirt3.png', isLocked: false),
-    AvatarItem(imagePath: 'assets/shirt4.png', isLocked: true),
+    AvatarItem(imagePath: 'assets/shirt4.png', isLocked: false),
     AvatarItem(imagePath: 'assets/shirt5.png', isLocked: false),
-    AvatarItem(imagePath: 'assets/shirt6.png', isLocked: true),
+    AvatarItem(imagePath: 'assets/shirt6.png', isLocked: false),
   ];
 
   List<AvatarItem> pants = [
     AvatarItem(imagePath: 'assets/pants1.png'),
     AvatarItem(imagePath: 'assets/pants2.png'),
-    AvatarItem(imagePath: 'assets/pants3.png', isLocked: true),
-    AvatarItem(imagePath: 'assets/pants4.png', isLocked: true),
-    AvatarItem(imagePath: 'assets/pants6.png', isLocked: true),
+    AvatarItem(imagePath: 'assets/pants3.png', isLocked: false),
+    AvatarItem(imagePath: 'assets/pants4.png', isLocked: false),
+    AvatarItem(imagePath: 'assets/pants6.png', isLocked: false),
   ];
 
   List<AvatarItem> faces = [
