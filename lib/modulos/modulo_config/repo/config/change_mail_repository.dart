@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 class ChangeMailRepository {
-  final String baseUrl = 'https://tuservidor.com/api'; 
+ final String baseUrl = 'http://10.153.76.115:1802/api/ModuloUsuario';
 
   Future<bool> changeMail(int userId, String newEmail) async {
     final url = Uri.parse('$baseUrl/usuarios/$userId/cambiar_correo');
