@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_misiones/viewmodel/misiones_viewmodel.dart';
-import 'package:front_balancelife/modulos/shared/custom_bottom_navbar%20.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 
 class DesafioView extends StatelessWidget {
@@ -21,6 +21,7 @@ class DesafioView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int currentPageIndex = 2; 
     final viewModel = Provider.of<DesafioViewModel>(context);
 
     return Scaffold(
@@ -137,7 +138,9 @@ class DesafioView extends StatelessWidget {
 
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),  
-    );
+        bottomNavigationBar: NavBar(
+        currentPageIndex: currentPageIndex,
+      
+      ),    );
   }
 }
