@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_alimentacion/view/food_entry_view.dart';
+import 'package:front_balancelife/modulos/modulo_alimentacion/viewmodel/food_entry_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_auth/view/login_view.dart';
 import 'package:front_balancelife/modulos/modulo_auth/view/register_view.dart';
 import 'package:front_balancelife/modulos/modulo_auth/viewmodels/login_viewmodel.dart';
@@ -49,6 +51,12 @@ import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart
         ChangeNotifierProvider(
           create: (context) => LoginViewModel()
         ),
+
+        ChangeNotifierProvider(
+          create: (context) => FoodEntryViewModel()
+        ),
+
+
         ChangeNotifierProvider(
           create: (context) => RegisterViewModel()
         ),
@@ -93,6 +101,7 @@ class MyApp extends StatelessWidget {
         '/logros': (context) => LogroPage(),
         '/sleep_page': (context) => SleepPage(),
         '/home_juegos': (context) => HomeMiniJuegosView(),
+        '/healthy_food': (context) => const FoodEntryView(),
       },
     );
   }

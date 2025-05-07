@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../model/habit_model.dart';
 
 class HabitService {
-  static const String apiUrl = "https://run.mocky.io/v3/f42cddc7-72f6-4eba-9553-efc46aeeb4f4";
+  static const String apiUrl = "http://10.153.76.115:1802/api/ModuloAnadirHabitos";
 
   Future<List<HabitModel>> getAllHabits() async {
     try {
@@ -51,5 +51,6 @@ class HabitService {
       throw Exception("Error de conexión: $e");
     }
   }
+  
   
 }

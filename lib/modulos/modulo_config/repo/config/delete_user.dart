@@ -1,10 +1,10 @@
 import 'package:http/http.dart' as http;
 
 class DeleteUserRepo {
-  final String baseUrl = 'https://tuservidor.com/api'; 
+ final String baseUrl = 'http://10.153.76.115:1802/api/ModuloUsuario';
  
   Future<bool> deleteUser(int userId) async {
-    final url = Uri.parse('$baseUrl/usuarios/$userId/eliminar');  
+    final url = Uri.parse('$baseUrl/eliminarUsuario/$userId');
     try {
       final response = await http.delete(
         url,
