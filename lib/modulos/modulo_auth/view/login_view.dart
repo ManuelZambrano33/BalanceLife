@@ -81,7 +81,18 @@ class LoginView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () => viewModel.login(context),
+                      onPressed: () async  {
+                      Navigator.pushReplacementNamed(context, '/homeView'); // TODO QUITAR ESTO
+                      bool response = await viewModel.login(context);
+                      if (response) {
+                        Navigator.pushReplacementNamed(context, '/homeView');
+                      } else {
+                        // Puedes mostrar un snackbar, diálogo o cualquier otro feedback aquí
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Credenciales incorrectas')),
+                        );
+                      }
+                      },
                       child: const Text(
                         'Iniciar sesión',
                         style: TextStyle(color: Colors.white),
