@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:front_balancelife/modulos/shared/custom_bottom_navbar%20.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/home_viewmodel.dart';
 import 'widgets/habit_card.dart';
@@ -10,6 +10,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int _currentIndex = 0;
     final viewModel = Provider.of<HomeViewModel>(context);
     final firstColumnHabits = viewModel.habits.sublist(0, 3);
     final secondColumnHabits = viewModel.habits.sublist(3);
@@ -94,7 +95,9 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),  
-    );
+      bottomNavigationBar: NavBar(
+        currentPageIndex: _currentIndex,
+      ),
+          );
   }
 }
