@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_actividad/repo/actividad_fisica_repository.dart';
+import 'package:front_balancelife/modulos/modulo_actividad/viewmodels/actividad_fisica_viewmodel.dart';
+import 'package:front_balancelife/modulos/modulo_actividad/views/actividad_fisica_view.dart';
 import 'package:front_balancelife/modulos/modulo_auth/view/login_view.dart';
 import 'package:front_balancelife/modulos/modulo_auth/view/register_view.dart';
 import 'package:front_balancelife/modulos/modulo_auth/viewmodels/login_viewmodel.dart';
@@ -47,6 +50,9 @@ import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart
           create: (context) => SleepViewModel()
         ),
         ChangeNotifierProvider(
+          create: (context) => ActividadFisicaViewModel(ActividadFisicaRepository()),
+        ), 
+        ChangeNotifierProvider(
           create: (context) => LoginViewModel()
         ),
         ChangeNotifierProvider(
@@ -93,6 +99,7 @@ class MyApp extends StatelessWidget {
         '/logros': (context) => LogroPage(),
         '/sleep_page': (context) => SleepPage(),
         '/home_juegos': (context) => HomeMiniJuegosView(),
+        '/exercise': (context) => const ActividadFisicaView(),
       },
     );
   }
