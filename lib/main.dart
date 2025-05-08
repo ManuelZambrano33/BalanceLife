@@ -22,6 +22,7 @@ import 'package:front_balancelife/modulos/modulo_minijuegos/view/memory_game_vie
 import 'package:front_balancelife/modulos/modulo_minijuegos/viewmodel/fruit_game_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_sleep/view/sleep_page.dart';
 import 'package:front_balancelife/modulos/modulo_sleep/viewmodel/sleep_viewmodel.dart';
+import 'package:front_balancelife/notificaciones/UnifiedNotificationService.dart';
 import 'package:front_balancelife/notificaciones/helper.dart';
 import 'package:provider/provider.dart';
 import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
@@ -36,46 +37,84 @@ import 'package:front_balancelife/modulos/modulo_habito/view/habits_view.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-// Asegúrate de tener importados todos tus ViewModels y vistas
-
-void main() async {
+import 'package:timezone/data/latest.dart' as tz;
+ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Inicializar las notificaciones y obtener el token FCM
-  await FirebaseService().initializeNotifications();
 
-  // Iniciar aplicación con MultiProvider
+  // Inicializar las notificaciones
+  await UnifiedNotificationService.initialize();
+
+  // Programar notificaciones específicas
+  await UnifiedNotificationService.scheduleDailyNotification(
+    id: 1,
+    title: '¡Hora de beber agua!',
+    body: 'Recuerda mantenerte hidratado a lo largo del día.',
+    hour: 8,
+    minute: 0,
+  );
+
+  await UnifiedNotificationService.scheduleDailyNotification(
+    id: 2,
+    title: '¡Hora de salir a caminar!',
+    body: 'Que tal un paseo a esta hora.',
+    hour: 15,
+    minute: 0,
+  );
+
+  await UnifiedNotificationService.scheduleDailyNotification(
+    id: 3,
+    title: '¡Hora de desayunar!',
+    body: 'El desayuno es la comida más importante del día.',
+    hour: 7,
+    minute: 0,
+  );
+
+  await UnifiedNotificationService.scheduleDailyNotification(
+    id: 4,
+    title: '¡Hora de almorzar!',
+    body: 'Registra tu almuerzo.',
+    hour: 12,
+    minute: 0,
+  );
+
+  await UnifiedNotificationService.scheduleDailyNotification(
+    id: 5,
+    title: '¡Hora de cenar',
+    body: 'Registra la ultima comida del día',
+    hour: 20,
+    minute: 0,
+  );
+
+  await UnifiedNotificationService.scheduleNapNotification(
+    DateTime.now().add(const Duration(hours: 1)), 
+  );
+
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => HomeViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => WaterTrackerViewModel(WaterTrackerRepository())),
+        ChangeNotifierProvider(create: (context) => WaterTrackerViewModel(WaterTrackerRepository())),
         ChangeNotifierProvider(create: (context) => StatsViewModel()),
         ChangeNotifierProvider(create: (context) => HabitViewModel()),
         ChangeNotifierProvider(create: (context) => SleepViewModel()),
-        ChangeNotifierProvider(
-            create: (context) =>
-                ActividadFisicaViewModel(ActividadFisicaRepository())),
+        ChangeNotifierProvider(create: (context) => ActividadFisicaViewModel(ActividadFisicaRepository())),
         ChangeNotifierProvider(create: (context) => LoginViewModel()),
         ChangeNotifierProvider(create: (context) => FoodEntryViewModel()),
         ChangeNotifierProvider(create: (context) => RegisterViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => FruitGameViewModel(UserRepository(), 1)),
+        ChangeNotifierProvider(create: (context) => FruitGameViewModel(UserRepository(), 1)),
         Provider<UserRepository>(create: (_) => UserRepository()),
-        ChangeNotifierProvider(
-            create: (context) => HomeConfigViewModel(SettingsRepository())),
+        ChangeNotifierProvider(create: (context) => HomeConfigViewModel(SettingsRepository())),
         ChangeNotifierProvider(create: (context) => AvatarViewModel()),
       ],
       child: const MyApp(),
     ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
