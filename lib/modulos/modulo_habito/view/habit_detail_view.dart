@@ -6,7 +6,7 @@ import '../model/habit_model.dart';
 class HabitDetailView extends StatelessWidget {
   final HabitModel habit;
 
-  const HabitDetailView({required this.habit});
+  const HabitDetailView({super.key, required this.habit});
 
   @override
   Widget build(BuildContext context) {

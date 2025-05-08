@@ -4,6 +4,8 @@ import 'sleep_now_page.dart';
 import 'program_alarm_page.dart';
 
 class SleepPage extends StatelessWidget {
+  const SleepPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

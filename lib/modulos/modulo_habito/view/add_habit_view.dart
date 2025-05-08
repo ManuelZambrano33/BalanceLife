@@ -8,6 +8,8 @@ import '../model/habit_model.dart';
 import '../model/enum/habit_enums.dart';
 
 class AddHabitView extends StatefulWidget {
+  const AddHabitView({super.key});
+
   @override
   _AddHabitViewState createState() => _AddHabitViewState();
 }

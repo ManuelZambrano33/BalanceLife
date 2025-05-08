@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_avatar/view/avatar_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/home_view.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
 import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
-import 'package:front_balancelife/modulos/modulo_misiones/view/misiones_view.dart';
 
 class NavBar extends StatelessWidget {
   final int currentPageIndex;
@@ -23,7 +23,7 @@ class NavBar extends StatelessWidget {
           page = MenuEstadisticas();
           break;
         case 2:
-          page = DesafioView();
+          page = AvatarView();
         break;
         case 3:
           page = HomeConfigView();

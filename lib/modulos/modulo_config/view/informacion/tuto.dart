@@ -6,7 +6,9 @@ import 'package:video_player/video_player.dart';
  
 
 class Tuto extends StatelessWidget {
-  final String title = 'Tutorial'; 
+  final String title = 'Tutorial';
+
+  const Tuto({super.key}); 
 
   @override
   Widget build(BuildContext context) {

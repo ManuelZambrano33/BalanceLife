@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class HabitDaysSelector extends StatelessWidget {
   final List<bool> selectedDays;
 
-  HabitDaysSelector({required this.selectedDays});
+  HabitDaysSelector({super.key, required this.selectedDays});
 
   final List<String> weekDays = ["L", "M", "M", "J", "V", "S", "D"];
   final List<Color> activeColors = [

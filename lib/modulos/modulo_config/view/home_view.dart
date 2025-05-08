@@ -2,109 +2,154 @@ import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/acerca_de/acerca_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/config_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/informacion/info_view.dart';
-import 'package:front_balancelife/modulos/modulo_config/view/notificaciones/notificaciones_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home.dart';
+import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmodel.dart';
 import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
- 
 import 'package:provider/provider.dart';
 
-
 class HomeConfigView extends StatelessWidget {
+  const HomeConfigView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    int currentPageIndex = 3; 
+    int currentPageIndex = 3;
     final homeViewModel = Provider.of<HomeConfigViewModel>(context);
+    final avatarVM = Provider.of<AvatarViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Configuración de Cuenta'),
-        automaticallyImplyLeading: false,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(180),
+        child: Container(
+          height: 190,
+          decoration: const BoxDecoration(
+            color: Color(0xFF4E5567),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(40),
+              bottomRight: Radius.circular(40),
+            ),
+          ),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                top: 45,
+                left: 16,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              const Positioned(
+                top: 120,
+                left: 35,
+                child: Text(
+                  'Cuenta',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: homeViewModel.isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : homeViewModel.errorMessage.isNotEmpty
               ? Center(child: Text(homeViewModel.errorMessage))
               : ListView(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   children: [
                     Row(
                       children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage: AssetImage('assets/pfp.jpg'),
+                        Container(
+                          width: 60,
+                          height: 72,
+                          child: Stack(
+                            children: [
+                              Image.asset(avatarVM.selectedSkin.imagePath,
+                                  width: 60, height: 72),
+                              Image.asset(avatarVM.selectedShirt.imagePath,
+                                  width: 60, height: 72),
+                              Image.asset(avatarVM.selectedPants.imagePath,
+                                  width: 60, height: 72),
+                              Image.asset(avatarVM.selectedFace.imagePath,
+                                  width: 60, height: 72),
+                              Image.asset(avatarVM.selectedHair.imagePath,
+                                  width: 60, height: 72),
+                            ],
+                          ),
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               homeViewModel.userSettings?.name ?? 'Cargando...',
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               homeViewModel.userSettings?.email ?? 'Cargando...',
-                              style: TextStyle(fontSize: 14, color: Colors.grey),
+                              style: const TextStyle(
+                                  fontSize: 14, color: Colors.grey),
                             ),
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(height: 20), 
-
+                    const SizedBox(height: 20),
                     _buildButton('Configuración de cuenta', Icons.settings, () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ConfigView()),
-                      );
-                    }),
-
-
-                    _buildButton('Notificaciones', Icons.notifications, () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => NotificationView()),
+                        MaterialPageRoute(builder: (context) => const ConfigView()),
                       );
                     }),
                     _buildButton('Acerca de', Icons.help, () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AboutView()),
+                        MaterialPageRoute(builder: (context) => const AboutView()),
                       );
                     }),
-
-
-                    _buildButton('Información', Icons.info, (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => InfoView()),);
+                    _buildButton('Información', Icons.info, () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const InfoView()),
+                      );
                     }),
-                    SizedBox(height: 380),
+                    const SizedBox(height: 330),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/');
                       },
-                      child: Text('Cerrar Sesión'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF9C27B0),
+                        backgroundColor: const Color(0xFF4E5567),
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
+                      child: const Text('Cerrar Sesión'),
                     ),
                   ],
                 ),
       bottomNavigationBar: NavBar(
         currentPageIndex: currentPageIndex,
-      )
+      ),
     );
   }
 
   Widget _buildButton(String title, IconData icon, [VoidCallback? onTap]) {
     return SizedBox(
-      width: double.infinity, 
+      width: double.infinity,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor:  Color.fromARGB(0, 218, 211, 211), 
-          elevation: 0, 
-          padding: EdgeInsets.symmetric(vertical: 16),
+          backgroundColor: const Color.fromARGB(0, 218, 211, 211),
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(vertical: 16),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,11 +157,11 @@ class HomeConfigView extends StatelessWidget {
             Row(
               children: [
                 Icon(icon, color: Colors.grey),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Text(title),
               ],
             ),
-            Icon(Icons.arrow_forward_ios, size: 16),
+            const Icon(Icons.arrow_forward_ios, size: 16),
           ],
         ),
       ),

@@ -30,7 +30,7 @@ class HidratacionProvider {
       }
     } catch (e) {
       print("Error en la solicitud de Hidratación: $e");
-      throw e;
+      rethrow;
     }
   }
 }

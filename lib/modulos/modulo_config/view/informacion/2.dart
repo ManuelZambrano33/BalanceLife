@@ -12,6 +12,8 @@ La clave está en la constancia y en adaptar el ejercicio a tus necesidades y ca
 Incorporar el ejercicio a tu rutina diaria es una de las decisiones más saludables que puedes tomar.
 ''';
 
+  const Info2({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

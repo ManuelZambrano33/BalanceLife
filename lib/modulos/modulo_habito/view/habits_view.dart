@@ -6,6 +6,8 @@ import '../view_model/habit_view_model.dart';
 import 'widget/habit_card.dart';
 
 class HabitsView extends StatelessWidget {
+  const HabitsView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final habitViewModel = Provider.of<HabitViewModel>(context);

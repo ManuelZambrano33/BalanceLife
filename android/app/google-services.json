@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "630829549605",
+    "project_id": "balance-life-8d64b",
+    "storage_bucket": "balance-life-8d64b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630829549605:android:38845b19551317f34557cc",
+        "android_client_info": {
+          "package_name": "com.example.front_balancelife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYZc828HNKWYq8ILBQFKb1jYUfDRgCE-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

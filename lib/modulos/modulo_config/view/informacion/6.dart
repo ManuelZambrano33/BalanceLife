@@ -20,6 +20,8 @@ Evitar el sedentarismo es esencial para mantener una buena salud física y menta
 Cada pequeño esfuerzo cuenta, y moverse más puede transformar tu bienestar. ¡Levántate y empieza a moverte hoy mismo!
 ''';
 
+  const Info6({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

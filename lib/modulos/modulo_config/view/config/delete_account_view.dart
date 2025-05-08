@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class DeleteAccountView extends StatelessWidget {
   final int? userId;
 
-  const DeleteAccountView({Key? key, this.userId}) : super(key: key);
+  const DeleteAccountView({super.key, this.userId});
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ class MenuEstadisticas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int _currentIndex = 1;
+    int currentIndex = 1;
     return Scaffold(
       body: Center(
         child: Column(
@@ -116,7 +116,7 @@ class MenuEstadisticas extends StatelessWidget {
         ),
       ),
         bottomNavigationBar: NavBar(
-        currentPageIndex: _currentIndex,
+        currentPageIndex: currentIndex,
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import '../view_model/water_tracker_viewmodel.dart';
 

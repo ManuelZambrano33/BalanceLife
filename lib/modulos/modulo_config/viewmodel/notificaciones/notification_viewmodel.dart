@@ -4,7 +4,7 @@ import 'package:front_balancelife/modulos/modulo_config/model/notification_model
 
 
 class NotificationViewModel extends ChangeNotifier {
-  NotificationModel _notificationModel = NotificationModel(isEnabled: true);
+  final NotificationModel _notificationModel = NotificationModel(isEnabled: true);
 
   bool get isEnabled => _notificationModel.isEnabled;
 

@@ -1,5 +1,6 @@
-import 'package:front_balancelife/modulos/modulo_habito/model/enum/habit_model.dart';
-import 'package:front_balancelife/modulos/modulo_habito/view_model/habit_provider.dart';
+import 'package:front_balancelife/modulos/modulo_habito/model/habit_model.dart';
+
+
 void main() async {
   try {
     List<HabitModel> habits = await HabitProvider.getAllHabits();

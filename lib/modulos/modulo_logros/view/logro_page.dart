@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../viewmodel/logro_viewmodel.dart';
 
 class LogroPage extends StatefulWidget {
+  const LogroPage({super.key});
+
   @override
   _LogroPageState createState() => _LogroPageState();
 }

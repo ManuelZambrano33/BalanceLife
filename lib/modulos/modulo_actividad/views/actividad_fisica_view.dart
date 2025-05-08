@@ -52,7 +52,7 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
 
           // Texto e imagen en fondo superior
           Positioned(
-            top: 60,
+            top: 140,
             left: 20,
             child: Text(
               'Actividad Física',
@@ -64,18 +64,20 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
             ),
           ),
           Positioned(
-            top: 40,
+            top: 70,
             right: 20,
             child: Image.asset(
               'assets/3.png',
-              width: 80,
-              height: 80,
+              width: 170,
+              height: 170,
             ),
           ),
+                     
 
-          // Contenido principal
+        
           Padding(
-            padding: const EdgeInsets.only(top: 200),
+            
+            padding: const EdgeInsets.only(top: 270),
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [

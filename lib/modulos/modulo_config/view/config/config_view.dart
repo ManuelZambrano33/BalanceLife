@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_config/repo/config/theme_repository.dart';
-import 'package:front_balancelife/modulos/modulo_config/view/config/change_language_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/change_mail_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/change_password_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/delete_account_view.dart';
@@ -8,12 +7,13 @@ import 'package:front_balancelife/modulos/modulo_config/view/config/theme_view.d
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/change_mail_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/change_password_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/delete_account_viewmodel.dart';
-import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/idioma_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/theme_viewmodel.dart';
  
 import 'package:provider/provider.dart';
 
 class ConfigView extends StatelessWidget {
+  const ConfigView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,18 +94,7 @@ class ConfigView extends StatelessWidget {
                     }),
 
 
-            _buildButton('Cambiar Idioma', Icons.language, () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                            create: (_) => LanguageViewModel(),
-                            child: const LanguageSettingsView(),
-                          ),
-                        ),
-                      );
-
-                    }),
+            
             _buildButton('Cambiar Tema (Claro/Oscuro)', Icons.brightness_6, () {
               Navigator.push(
                 context,

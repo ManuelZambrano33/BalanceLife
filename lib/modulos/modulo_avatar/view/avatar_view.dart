@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-
 class AvatarView extends StatefulWidget {
+  const AvatarView({super.key});
+
   @override
   _AvatarViewState createState() => _AvatarViewState();
 }

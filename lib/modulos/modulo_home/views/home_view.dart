@@ -10,7 +10,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int _currentIndex = 0;
+    int currentIndex = 0;
     final viewModel = Provider.of<HomeViewModel>(context);
     final firstColumnHabits = viewModel.habits.sublist(0, 3);
     final secondColumnHabits = viewModel.habits.sublist(3);
@@ -96,7 +96,7 @@ class HomeView extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: NavBar(
-        currentPageIndex: _currentIndex,
+        currentPageIndex: currentIndex,
       ),
           );
   }
