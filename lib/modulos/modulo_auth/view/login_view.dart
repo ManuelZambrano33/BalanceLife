@@ -1,39 +1,62 @@
 import 'package:flutter/material.dart';
-import '../viewmodels/login_viewmodel.dart';
-import 'package:provider/provider.dart';
+import 'package:front_balancelife/Provider/user_provider.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final viewModel = Provider.of<LoginViewModel>(context);
+  State<LoginView> createState() => _LoginViewState();
+}
 
+class _LoginViewState extends State<LoginView> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor completa todos los campos')),
+      );
+      return;
+    }
+
+    final success = await UserProvider.login(email, password);
+
+    if (success) {
+      Navigator.pushReplacementNamed(context, '/homeView');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Credenciales incorrectas')),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Imagen superior izquierda
           Positioned(
             top: 0,
             left: 0,
-            child: Image.asset(
-              'assets/superior_izquierda.png',
-              width: 230,
-            ),
+            child: Image.asset('assets/superior_izquierda.png', width: 230),
           ),
-
-          // Imagen inferior derecha
           Positioned(
             bottom: 0,
             right: 0,
-            child: Image.asset(
-              'assets/inferior_derecha.png',
-              width: 230,
-            ),
+            child: Image.asset('assets/inferior_derecha.png', width: 230),
           ),
-
-          // Contenido del formulario
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Center(
@@ -51,6 +74,7 @@ class LoginView extends StatelessWidget {
                     ),
                     const SizedBox(height: 30),
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         labelText: 'Correo electrónico',
                         border: OutlineInputBorder(
@@ -58,10 +82,10 @@ class LoginView extends StatelessWidget {
                         ),
                         prefixIcon: const Icon(Icons.email),
                       ),
-                      onChanged: (value) => viewModel.email = value,
                     ),
                     const SizedBox(height: 20),
                     TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Contraseña',
@@ -70,7 +94,6 @@ class LoginView extends StatelessWidget {
                         ),
                         prefixIcon: const Icon(Icons.lock),
                       ),
-                      onChanged: (value) => viewModel.password = value,
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton(
@@ -81,18 +104,7 @@ class LoginView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () async  {
-                      Navigator.pushReplacementNamed(context, '/homeView'); // TODO QUITAR ESTO
-                      bool response = await viewModel.login(context);
-                      if (response) {
-                        Navigator.pushReplacementNamed(context, '/homeView');
-                      } else {
-                        // Puedes mostrar un snackbar, diálogo o cualquier otro feedback aquí
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Credenciales incorrectas')),
-                        );
-                      }
-                      },
+                      onPressed: _handleLogin,
                       child: const Text(
                         'Iniciar sesión',
                         style: TextStyle(color: Colors.white),
@@ -100,9 +112,7 @@ class LoginView extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/register');
-                      },
+                      onPressed: () => Navigator.pushNamed(context, '/register'),
                       child: const Text(
                         '¿No tienes cuenta? Regístrate aquí',
                         style: TextStyle(
