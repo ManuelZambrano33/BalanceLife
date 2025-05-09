@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:630829549605:android:8b70d9dd8b5892c44557cc",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYZc828HNKWYq8ILBQFKb1jYUfDRgCE-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:630829549605:android:38845b19551317f34557cc",
         "android_client_info": {
           "package_name": "com.example.front_balancelife"

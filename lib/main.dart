@@ -34,12 +34,7 @@ import 'package:front_balancelife/modulos/modulo_estadisticas/views/stat_view.da
 import 'package:front_balancelife/modulos/modulo_habito/view_model/habit_view_model.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view/habits_view.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-// Asegúrate de tener importados todos tus ViewModels y vistas
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,22 +49,17 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => HomeViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => WaterTrackerViewModel(WaterTrackerRepository())),
+        ChangeNotifierProvider(create: (context) => WaterTrackerViewModel(WaterTrackerRepository())),
         ChangeNotifierProvider(create: (context) => StatsViewModel()),
         ChangeNotifierProvider(create: (context) => HabitViewModel()),
         ChangeNotifierProvider(create: (context) => SleepViewModel()),
-        ChangeNotifierProvider(
-            create: (context) =>
-                ActividadFisicaViewModel(ActividadFisicaRepository())),
+        ChangeNotifierProvider(create: (context) => ActividadFisicaViewModel(ActividadFisicaRepository())),
         ChangeNotifierProvider(create: (context) => LoginViewModel()),
         ChangeNotifierProvider(create: (context) => FoodEntryViewModel()),
         ChangeNotifierProvider(create: (context) => RegisterViewModel()),
-        ChangeNotifierProvider(
-            create: (context) => FruitGameViewModel(UserRepository(), 1)),
+        ChangeNotifierProvider(create: (context) => FruitGameViewModel(UserRepository(), 1)),
         Provider<UserRepository>(create: (_) => UserRepository()),
-        ChangeNotifierProvider(
-            create: (context) => HomeConfigViewModel(SettingsRepository())),
+        ChangeNotifierProvider(create: (context) => HomeConfigViewModel(SettingsRepository())),
         ChangeNotifierProvider(create: (context) => AvatarViewModel()),
       ],
       child: const MyApp(),
@@ -84,9 +74,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/',  // Ruta inicial al SplashScreen o LoginView
       routes: {
-        '/': (context) => LoginView(),
+        '/': (context) => LoginView(), // Si usas SplashScreen, cámbialo aquí
         '/homeView': (context) => const HomeView(),
         '/register': (context) => RegisterView(),
         '/water_tracker': (context) => const WaterTrackerView(),
