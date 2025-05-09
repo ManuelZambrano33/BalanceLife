@@ -22,7 +22,6 @@ import 'package:front_balancelife/modulos/modulo_minijuegos/view/memory_game_vie
 import 'package:front_balancelife/modulos/modulo_minijuegos/viewmodel/fruit_game_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_sleep/view/sleep_page.dart';
 import 'package:front_balancelife/modulos/modulo_sleep/viewmodel/sleep_viewmodel.dart';
-import 'package:front_balancelife/notificaciones/UnifiedNotificationService.dart';
 import 'package:front_balancelife/notificaciones/helper.dart';
 import 'package:provider/provider.dart';
 import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
@@ -35,64 +34,17 @@ import 'package:front_balancelife/modulos/modulo_estadisticas/views/stat_view.da
 import 'package:front_balancelife/modulos/modulo_habito/view_model/habit_view_model.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view/habits_view.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'package:timezone/data/latest.dart' as tz;
- void main() async {
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Inicializar las notificaciones y obtener el token FCM
+  await FirebaseService().initializeNotifications();
 
-  // Inicializar las notificaciones
-  await UnifiedNotificationService.initialize();
-
-  // Programar notificaciones específicas
-  await UnifiedNotificationService.scheduleDailyNotification(
-    id: 1,
-    title: '¡Hora de beber agua!',
-    body: 'Recuerda mantenerte hidratado a lo largo del día.',
-    hour: 8,
-    minute: 0,
-  );
-
-  await UnifiedNotificationService.scheduleDailyNotification(
-    id: 2,
-    title: '¡Hora de salir a caminar!',
-    body: 'Que tal un paseo a esta hora.',
-    hour: 15,
-    minute: 0,
-  );
-
-  await UnifiedNotificationService.scheduleDailyNotification(
-    id: 3,
-    title: '¡Hora de desayunar!',
-    body: 'El desayuno es la comida más importante del día.',
-    hour: 7,
-    minute: 0,
-  );
-
-  await UnifiedNotificationService.scheduleDailyNotification(
-    id: 4,
-    title: '¡Hora de almorzar!',
-    body: 'Registra tu almuerzo.',
-    hour: 12,
-    minute: 0,
-  );
-
-  await UnifiedNotificationService.scheduleDailyNotification(
-    id: 5,
-    title: '¡Hora de cenar',
-    body: 'Registra la ultima comida del día',
-    hour: 20,
-    minute: 0,
-  );
-
-  await UnifiedNotificationService.scheduleNapNotification(
-    DateTime.now().add(const Duration(hours: 1)), 
-  );
-
-
+  // Iniciar aplicación con MultiProvider
   runApp(
     MultiProvider(
       providers: [
@@ -115,7 +67,6 @@ import 'package:timezone/data/latest.dart' as tz;
   );
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -123,9 +74,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/',  // Ruta inicial al SplashScreen o LoginView
       routes: {
-        '/': (context) => LoginView(),
+        '/': (context) => LoginView(), // Si usas SplashScreen, cámbialo aquí
         '/homeView': (context) => const HomeView(),
         '/register': (context) => RegisterView(),
         '/water_tracker': (context) => const WaterTrackerView(),
