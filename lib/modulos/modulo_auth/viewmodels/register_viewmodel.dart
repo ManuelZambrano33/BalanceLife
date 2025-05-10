@@ -11,6 +11,7 @@ class RegisterViewModel extends ChangeNotifier {
 
   Future<bool> register(BuildContext context) async {
     final usuario = Usuario(nombre: nombre, email: email, contrasena: password);
-    return await _authService.register(usuario);
+    // return await _authService.register(usuario);
+    return false;
   }
 }
