@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Asegúrate de importar intl en pubspec.yaml
 
 class SleepNowPage extends StatelessWidget {
   const SleepNowPage({super.key});
 
+  // Función que calcula la hora sumando los minutos indicados
+  String calcularHoraDespertar(int minutos) {
+    final ahora = DateTime.now().add(Duration(minutes: minutos));
+    final formato = DateFormat('hh:mm a'); // Puedes cambiar a 'HH:mm' si prefieres formato 24h
+    return formato.format(ahora);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-appBar: PreferredSize(
+      appBar: PreferredSize(
         preferredSize: Size.fromHeight(180),
         child: Container(
           height: 190,
@@ -20,7 +28,6 @@ appBar: PreferredSize(
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              
               Positioned(
                 top: 45,
                 left: 16,
@@ -31,7 +38,6 @@ appBar: PreferredSize(
                   },
                 ),
               ),
-              
               Positioned(
                 top: -55,
                 right: 30,
@@ -56,29 +62,25 @@ appBar: PreferredSize(
                   ),
                 ),
               ),
-              
-              
             ],
           ),
         ),
       ),
-
-
       body: Padding(
         padding: const EdgeInsets.only(top: 50),
         child: ListView(
           children: [
-             SizedBox(
-              width: 260, // o el ancho que quieras
+            SizedBox(
+              width: 260,
               height: 260,
               child: Image.asset(
                 'assets/Duerme_Ahora.png',
-                fit: BoxFit.contain, // o cover si prefieres
+                fit: BoxFit.contain,
               ),
             ),
-            _buildCard("Despierta después de 4 ciclos", "Hora calculada"),
-            _buildCard("Despierta después de 5 ciclos", "Hora calculada"),
-            _buildCard("Despierta después de 6 ciclos", "Hora calculada"),
+            _buildCard("Despierta después de 4 ciclos", calcularHoraDespertar(4 * 90)),
+            _buildCard("Despierta después de 5 ciclos", calcularHoraDespertar(5 * 90)),
+            _buildCard("Despierta después de 6 ciclos", calcularHoraDespertar(6 * 90)),
           ],
         ),
       ),
