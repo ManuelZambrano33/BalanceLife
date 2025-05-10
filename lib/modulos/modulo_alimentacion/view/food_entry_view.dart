@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/Provider/alimentacion_provider.dart';
 import 'package:provider/provider.dart';
-import '../viewmodel/food_entry_viewmodel.dart';
 
-class FoodEntryView extends StatelessWidget {
+class FoodEntryView extends StatefulWidget {
   const FoodEntryView({super.key});
 
   @override
+  State<FoodEntryView> createState() => _FoodEntryViewState();
+}
+
+class _FoodEntryViewState extends State<FoodEntryView> {
+  String? _tipo;
+  final _caloriasCtrl = TextEditingController();
+
+  // Tipos de comida disponibles
+  final List<String> _tipos = [
+    'Desayuno',
+    'Almuerzo',
+    'Cena',
+    'Snack',
+  ];
+
+  @override
+  void dispose() {
+    _caloriasCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final vm = context.watch<FoodEntryViewModel>();
+    final prov = context.watch<AlimentacionProvider>();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
- 
             Container(
               height: 180,
               decoration: const BoxDecoration(
@@ -49,9 +71,7 @@ class FoodEntryView extends StatelessWidget {
                 ],
               ),
             ),
-
             const SizedBox(height: 120),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
@@ -66,58 +86,56 @@ class FoodEntryView extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 8),
-                  
                 ],
               ),
             ),
-
             const SizedBox(height: 24),
-
-          
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 48),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DropdownButtonFormField<String>(
-                    value: vm.tipo,
+                    value: _tipo,
                     decoration: const InputDecoration(labelText: 'Tipo'),
-                    items: vm.tipos
+                    items: _tipos
                         .map((t) => DropdownMenuItem(
                               value: t,
                               child: Text(t),
                             ))
                         .toList(),
-                    onChanged: vm.setTipo,
+                    onChanged: (v) => setState(() => _tipo = v),
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Cantidad'),
-                    onChanged: vm.setCantidad,
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
+                    controller: _caloriasCtrl,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(labelText: 'Calorías'),
-                    onChanged: vm.setCalorias,
                   ),
                   const SizedBox(height: 24),
-                  vm.isLoading
+                  prov.isRegistering
                       ? const Center(child: CircularProgressIndicator())
                       : ElevatedButton(
-                          onPressed: vm.registerEntry,
+                          onPressed: () {
+                            if (_tipo == null || _caloriasCtrl.text.isEmpty) return;
+                            context.read<AlimentacionProvider>().registrarAlimentacion(
+                                  usuarioId: 1, //context.read<AuthProvider>().user!.idUsuario, <---- ESO SE PONE CUANDO ESTE EL LOGIN FUNCIONANDO
+                                  tipoComida: _tipo!,
+                                  calorias: double.tryParse(_caloriasCtrl.text) ?? 0,
+                                  fecha: DateTime.now(),
+                                );
+                          },
                           child: const Text('Registrar'),
                         ),
-                  if (vm.error != null) ...[
+                  if (prov.registerError != null) ...[
                     const SizedBox(height: 12),
                     Text(
-                      vm.error!,
+                      prov.registerError!,
                       style: const TextStyle(color: Colors.red),
                       textAlign: TextAlign.center,
                     ),
                   ],
-                  if (vm.success) ...[
+                  if (prov.registerSuccess) ...[
                     const SizedBox(height: 12),
                     const Text(
                       '¡Registro exitoso!',

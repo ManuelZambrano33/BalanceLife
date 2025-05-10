@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_habito/model/config_colors.dart';
-import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import '../view_model/habit_view_model.dart';
 import 'widget/habit_card.dart';
