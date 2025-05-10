@@ -66,6 +66,7 @@ class HomeConfigView extends StatelessWidget {
                   children: [
                     Row(
                       children: [
+                        // Cambié la posición del avatar aquí
                         Container(
                           width: 60,
                           height: 72,
@@ -88,16 +89,18 @@ class HomeConfigView extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              homeViewModel.userSettings?.name ?? 'Cargando...',
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              homeViewModel.userSettings?.email ?? 'Cargando...',
-                              style: const TextStyle(
-                                  fontSize: 14, color: Colors.grey),
-                            ),
+                            if (homeViewModel.userSettings?.name != null)
+                              Text(
+                                homeViewModel.userSettings!.name,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                            if (homeViewModel.userSettings?.email != null)
+                              Text(
+                                homeViewModel.userSettings!.email,
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.grey),
+                              ),
                           ],
                         ),
                       ],

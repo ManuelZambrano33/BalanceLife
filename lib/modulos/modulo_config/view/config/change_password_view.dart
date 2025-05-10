@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/change_password_viewmodel.dart';
- 
 import 'package:provider/provider.dart';
 
-class ChangePasswordView extends StatefulWidget {
+class UpdateUserView extends StatefulWidget {
   final int? userId;
 
-  const ChangePasswordView({super.key, this.userId});
+  const UpdateUserView({super.key, this.userId});
 
   @override
-  State<ChangePasswordView> createState() => _ChangePasswordViewState();
+  State<UpdateUserView> createState() => _UpdateUserViewState();
 }
 
-class _ChangePasswordViewState extends State<ChangePasswordView> {
+class _UpdateUserViewState extends State<UpdateUserView> {
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
 
@@ -26,7 +26,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         top: false,
         child: Column(
           children: [
- 
             Container(
               height: 180,
               decoration: const BoxDecoration(
@@ -51,7 +50,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     top: 110,
                     left: 30,
                     child: Text(
-                      'Cambiar Contraseña',
+                      'Actualizar Datos',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -65,7 +64,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
 
             const SizedBox(height: 40),
 
-            // Formulario
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Form(
@@ -74,6 +72,15 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   children: [
                     if (viewModel.error != null)
                       Text(viewModel.error!, style: const TextStyle(color: Colors.red)),
+
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(labelText: 'Nuevo Email'),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) =>
+                          value != null && value.contains('@') ? null : 'Email no válido',
+                    ),
+
                     TextFormField(
                       controller: _passwordController,
                       obscureText: true,
@@ -81,6 +88,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                       validator: (value) =>
                           value != null && value.length >= 6 ? null : 'Mínimo 6 caracteres',
                     ),
+
                     TextFormField(
                       controller: _confirmController,
                       obscureText: true,
@@ -88,38 +96,43 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                       validator: (value) =>
                           value == _passwordController.text ? null : 'No coincide',
                     ),
+
                     const SizedBox(height: 20),
+
                     viewModel.isLoading
                         ? const CircularProgressIndicator()
                         : ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF720455),  
-                              foregroundColor: Colors.white, 
+                              backgroundColor: const Color(0xFF720455),
+                              foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-        onPressed: () async {
-          if (_formKey.currentState!.validate()) {
-            if (widget.userId != null) {
-              await viewModel.changePassword(widget.userId!, _passwordController.text);
-              if (viewModel.success) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Contraseña cambiada exitosamente')),
-                );
-                Navigator.pop(context);
-              }
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Error: usuario no encontrado')),
-              );
-            }
-          }
-        },
-        child: const Text('Guardar'),
-      ),
-
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                if (widget.userId != null) {
+                                  await viewModel.updateUserData(
+                                    widget.userId!,
+                                    _emailController.text,
+                                    _passwordController.text,
+                                  );
+                                  if (viewModel.success) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Datos actualizados exitosamente')),
+                                    );
+                                    Navigator.pop(context);
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Error: usuario no encontrado')),
+                                  );
+                                }
+                              }
+                            },
+                            child: const Text('Guardar'),
+                          ),
                   ],
                 ),
               ),

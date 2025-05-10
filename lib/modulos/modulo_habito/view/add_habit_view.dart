@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:front_balancelife/modulos/modulo_habito/model/config_colors.dart';
 import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +31,7 @@ class _AddHabitViewState extends State<AddHabitView> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: HabitColors.primary,
+                color: const Color(0xFF9A91B4), // Color cambiado a 0xFF9A91B4
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
@@ -53,11 +53,12 @@ class _AddHabitViewState extends State<AddHabitView> {
                       ),
                       SizedBox(height: 20),
                       Center(
-                        child: SvgPicture.asset(
-                          'assets/habit.svg',
+                        child: Image.asset(
+                          'assets/habit.png',
                           height: 180,
                         ),
-                      ),
+                      )
+
                     ],
                   ),
                 ],
@@ -135,7 +136,7 @@ class _AddHabitViewState extends State<AddHabitView> {
                   Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: HabitColors.primary,
+                  backgroundColor: Color(0xFF9A91B4), // Color cambiado a 0xFF9A91B4
                   padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
                 ),
@@ -167,46 +168,37 @@ class _AddHabitViewState extends State<AddHabitView> {
     );
   }
 
-  Widget _buildCategorySelector() {
-
-final viewModel = Provider.of<HomeViewModel>(context);
-    
-    // final icons = [
-    //   'assets/actividad_fisica.svg',
-    //   'assets/alimentacion.svg',
-    //   'assets/hidratacion.svg',
-    //   'assets/sueno.svg',
-    //   'assets/mini_juegos.svg',
-    // ];
-
-return Row( 
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: List.generate(viewModel.habits.length - 1, (index) {
-    bool isSelected = selectedCategoryIndex == index;
-    
-    return GestureDetector(
-      onTap: () => setState(() => selectedCategoryIndex = index),
-      child: Container(
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color:  viewModel.habits[index].color, // Fondo morado para todos
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey[300]!),
-          boxShadow: isSelected
-              ? [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10, offset: Offset(0, 4))] // Sombra cuando es seleccionado
-              : [], // Sin sombra cuando no está seleccionado
+Widget _buildCategorySelector() {
+  final viewModel = Provider.of<HomeViewModel>(context);
+  
+  return Row( 
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: List.generate(viewModel.habits.length - 1, (index) {
+      bool isSelected = selectedCategoryIndex == index;
+      
+      return GestureDetector(
+        onTap: () => setState(() => selectedCategoryIndex = index),
+        child: Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color:  Color(0xFF9A91B4), // Fondo morado para todos
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey[300]!),
+            boxShadow: isSelected
+                ? [BoxShadow(color: Colors.black.withOpacity(0.5), blurRadius: 10, offset: Offset(0, 4))] // Sombra cuando es seleccionado
+                : [], // Sin sombra cuando no está seleccionado
+          ),
+          child: Image.asset(
+            viewModel.habits[index].iconPath.replaceAll('.svg', '.png'), // Cambiar la extensión a .png
+            height: 50, 
+            width: 50,
+          ),
         ),
-        child: SvgPicture.asset(
-          viewModel.habits[index].iconPath, 
-          height: 50, 
-          width: 50,
-        ),
-      ),
-    );
-  }),
-);
+      );
+    }),
+  );
+}
 
-  }
 
   Widget _buildDaysSelector() {
     final days = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
@@ -224,7 +216,7 @@ return Row(
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: selectedDays[index] ? HabitColors.lightPrimary : Colors.white,
+              color: selectedDays[index] ? Color(0xFF9A91B4) : Colors.white, // Color cambiado a 0xFF9A91B4
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey[300]!),
             ),
@@ -259,7 +251,7 @@ return Row(
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
             decoration: BoxDecoration(
-              color: isSelected ? HabitColors.lightPrimary : Colors.white,
+              color: isSelected ? Color(0xFF9A91B4) : Colors.white, // Color cambiado a 0xFF9A91B4
               borderRadius: BorderRadius.circular(32),
               border: Border.all(color: Colors.grey[300]!),
             ),
