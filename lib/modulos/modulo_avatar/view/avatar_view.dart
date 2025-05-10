@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmodel.dart';
+import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 
 class AvatarView extends StatefulWidget {
@@ -14,6 +15,7 @@ class _AvatarViewState extends State<AvatarView> {
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = 2; 
     final avatarVM = Provider.of<AvatarViewModel>(context);
 
     return Scaffold(
@@ -105,6 +107,9 @@ class _AvatarViewState extends State<AvatarView> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: NavBar(
+      currentPageIndex: currentIndex,
       ),
     );
   }
