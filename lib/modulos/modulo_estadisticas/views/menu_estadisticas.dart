@@ -10,10 +10,11 @@ class MenuEstadisticas extends StatelessWidget {
   Widget build(BuildContext context) {
     int currentIndex = 1;
     return Scaffold(
+      backgroundColor: Color(0xFFF9F9F9),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center, // Centrado horizontal
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               height: 200,
@@ -40,82 +41,67 @@ class MenuEstadisticas extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 20,
-                    right: 20,
-                    child: SizedBox(
+                    top: 70,
+                    right: 10,
+                    child: Container(
                       width: 200,
                       height: 200,
-                      child: SvgPicture.asset(
-                        'assets/estadisticas.svg',
-                        width: 130,
-                        height: 130,
-                      )
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/estadisticas.png'),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
                   ),
+
                 ],
               ),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: 100),
 
-            // Container de texto centrado
-            Container(
-              padding: const EdgeInsets.all(16),
-              margin: EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 48, 153, 202).withOpacity(0.5),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all (
-                 color: Color.fromARGB(255, 84, 110, 122),
-                  width: 2
-                )
-              ),
-              child: const Text(
-                'La constancia te permitirá alcanzar tus objetivos.',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 43, 44, 53),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+            // Eliminado el contenedor de la frase motivacional
 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center, // Centrado verticalmente
-              children: [
-                CustomMenuButton(
-                  text: 'Sueño',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/progreso_diario');
-                  },
-                ),
-                const SizedBox(width: 20), // Espacio entre botones
-                CustomMenuButton(
-                  text: 'Hidratación',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/estadisticas_mensuales');
-                  },
-                ),
-                CustomMenuButton(
-                  text: 'Alimentación',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/historial_habitos');
-                  },
-                ),
-                const SizedBox(width: 20), // Espacio entre botones
-                CustomMenuButton(
-                  text: 'Actividad física',
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/comparacion_resultados');
-                  },
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CustomMenuButton(
+                    text: 'Sueño',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/progreso_diario');
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  CustomMenuButton(
+                    text: 'Hidratación',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/estadisticas_mensuales');
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  CustomMenuButton(
+                    text: 'Alimentación',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/historial_habitos');
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  CustomMenuButton(
+                    text: 'Actividad física',
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/comparacion_resultados');
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-        bottomNavigationBar: NavBar(
+      bottomNavigationBar: NavBar(
         currentPageIndex: currentIndex,
       ),
     );

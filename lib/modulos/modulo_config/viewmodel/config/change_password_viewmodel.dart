@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:front_balancelife/modulos/modulo_config/repo/config/user_repo.dart';
-
+import 'package:front_balancelife/modulos/modulo_config/repo/config/update_user.dart' as front_balancelife;
 class ChangePasswordViewModel extends ChangeNotifier {
-  final UserRepo _userRepo = UserRepo();
+  bool isLoading = false;
+  bool success = false;
+  String? error;
 
-  bool _isLoading = false;
-  String? _error;
-  bool _success = false;
-
-  bool get isLoading => _isLoading;
-  String? get error => _error;
-  bool get success => _success;
-
-  Future<void> changePassword(int userId, String newPassword) async {
-    _isLoading = true;
-    _error = null;
-    _success = false;
+  Future<void> updateUserData(int userId, String email, String newPassword) async {
+    isLoading = true;
+    error = null;
+    success = false;
     notifyListeners();
 
     try {
-      final result = await _userRepo.changePassword(userId, newPassword);
-      _success = result;
+      // Aquí usarías tu repositorio para enviar la solicitud a la API
+      final result = await front_balancelife.updateUser(userId, email, newPassword);
+      
+      if (result) {
+        success = true;
+      } else {
+        error = 'No se pudo actualizar la información';
+      }
     } catch (e) {
-      _error = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
+      error = 'Error: ${e.toString()}';
     }
+
+    isLoading = false;
+    notifyListeners();
   }
 }
