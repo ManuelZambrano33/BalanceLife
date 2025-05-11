@@ -44,10 +44,10 @@ class NavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return NavigationBar(
       destinations: const [
-        NavigationDestination(icon: Icon(Icons.home), label: 'List'),
-        NavigationDestination(icon: Icon(Icons.analytics), label: 'sms'),
-        NavigationDestination(icon: Icon(Icons.list_alt_outlined), label: 'sms'),
-        NavigationDestination(icon: Icon(Icons.person), label: 'sms'),
+        NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+        NavigationDestination(icon: Icon(Icons.analytics), label: 'Estadisticas'),
+        NavigationDestination(icon: Icon(Icons.create), label: 'Avatar'),
+        NavigationDestination(icon: Icon(Icons.settings), label: 'Configuracion'),
 
       ],
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,

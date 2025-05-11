@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmodel.dart';
 import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/home_viewmodel.dart';
 import 'widgets/habit_card.dart';
-
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
@@ -14,7 +14,10 @@ class HomeView extends StatelessWidget {
     final viewModel = Provider.of<HomeViewModel>(context);
     final firstColumnHabits = viewModel.habits.sublist(0, 3);
     final secondColumnHabits = viewModel.habits.sublist(3);
-
+    
+    // Obtener el AvatarViewModel para acceder a las diferentes partes del avatar
+    final avatarVM = Provider.of<AvatarViewModel>(context);
+    
     return Scaffold(
       body: Stack(
         children: [
@@ -39,19 +42,43 @@ class HomeView extends StatelessWidget {
 
           // Contenido principal
           Column(
-            
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Textos FIJOS
               Padding(
-                
                 padding: const EdgeInsets.only(top: 75.0, left: 18.0, right: 18.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "¡Hola, usuario!",
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        // Avatar pequeño dentro de la bolita
+                        CircleAvatar(
+                          radius: 25, // Ajusta el tamaño del avatar en la bolita
+                          backgroundColor: Colors.transparent, // Fondo transparente
+                          child: ClipOval(
+                            child: Stack(
+                              children: [
+                                // Piel del avatar
+                                Image.asset(avatarVM.selectedSkin.imagePath, width: 50, height: 50, fit: BoxFit.cover),
+                                // Camisa del avatar
+                                Image.asset(avatarVM.selectedShirt.imagePath, width: 50, height: 50, fit: BoxFit.cover),
+                                // Pantalones del avatar
+                                Image.asset(avatarVM.selectedPants.imagePath, width: 50, height: 50, fit: BoxFit.cover),
+                                // Cara del avatar
+                                Image.asset(avatarVM.selectedFace.imagePath, width: 50, height: 50, fit: BoxFit.cover),
+                                // Cabello del avatar
+                                Image.asset(avatarVM.selectedHair.imagePath, width: 50, height: 50, fit: BoxFit.cover),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        const Text(
+                          "¡Hola, Bienvenido!",
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     const Text(
@@ -98,6 +125,6 @@ class HomeView extends StatelessWidget {
       bottomNavigationBar: NavBar(
         currentPageIndex: currentIndex,
       ),
-          );
+    );
   }
 }

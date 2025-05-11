@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/modulos/modulo_config/repo/config/theme_repository.dart';
-import 'package:front_balancelife/modulos/modulo_config/view/config/change_mail_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/change_password_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/delete_account_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/theme_view.dart';
-import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/change_mail_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/change_password_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/delete_account_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/theme_viewmodel.dart';
@@ -67,32 +65,20 @@ class ConfigView extends StatelessWidget {
             const SizedBox(height: 50),
 
  
-            _buildButton('Cambiar Contraseña', Icons.lock , () {
+            _buildButton('Actualizar datos', Icons.lock , () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                             create: (_) => ChangePasswordViewModel(),
-                            child: const ChangePasswordView(),
+                            child: const UpdateUserView(),
                           ),
                         ),
                       );
 
                     }),
 
-            _buildButton('Cambiar Correo Electrónico', Icons.email, () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                            create: (_) => ChangeMailViewModel(),
-                            child: const ChangeMailView(),
-                          ),
-                        ),
-                      );
-
-                    }),
-
+           
 
             
             _buildButton('Cambiar Tema (Claro/Oscuro)', Icons.brightness_6, () {
