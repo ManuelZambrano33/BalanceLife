@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 import '../model/usuario_model.dart';
 
 class AuthService {
-  final String _baseUrl = "http://10.153.76.115:1802/api/ModuloUsuario";
+  final String _baseUrl = "http://192.168.1.6:3000/api/ModuloUsuario";
 
   Future<bool> login(String email, String password) async {
     final response = await http.post(

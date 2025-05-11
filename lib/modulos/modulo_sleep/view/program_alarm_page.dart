@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/Provider/sueno_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProgramAlarmPage extends StatefulWidget {
   const ProgramAlarmPage({super.key});
@@ -9,17 +11,34 @@ class ProgramAlarmPage extends StatefulWidget {
 
 class _ProgramAlarmPageState extends State<ProgramAlarmPage> {
   TimeOfDay? _selectedTime;
+  int? _selectedIndex;
 
-  List<TimeOfDay> _calculateAlarms(TimeOfDay sleepTime) {
-    int minutesInCycle = 90; 
-    int additionalMinutes = 30; 
+  String _formatDuration(double horas) {
+    final totalMinutes = (horas * 60).round();
+    final h = totalMinutes ~/ 60;
+    final m = totalMinutes % 60;
 
-    List<TimeOfDay> alarms = [];
-    for (int cycles in [4, 5, 6]) {
+    if (m == 0) return '$h horas';
+    return '$h horas con $m minutos';
+  }
+
+  List<Map<String, dynamic>> _calculateAlarms(TimeOfDay sleepTime) {
+    const int minutesInCycle = 90;
+    const int additionalMinutes = 30;
+    List<Map<String, dynamic>> alarms = [];
+
+    final now = DateTime.now();
+
+    for (int i = 0; i < 3; i++) {
+      int cycles = 4 + i;
       int totalMinutes = cycles * minutesInCycle + additionalMinutes;
-      DateTime newTime = DateTime(2025, 4, 16, sleepTime.hour, sleepTime.minute)
-          .add(Duration(minutes: totalMinutes));
-      alarms.add(TimeOfDay(hour: newTime.hour, minute: newTime.minute));
+      DateTime base = DateTime(now.year, now.month, now.day, sleepTime.hour, sleepTime.minute);
+      DateTime newTime = base.add(Duration(minutes: totalMinutes));
+
+      alarms.add({
+        'time': TimeOfDay(hour: newTime.hour, minute: newTime.minute),
+        'duration': cycles * 90 / 60.0, // duración en horas
+      });
     }
 
     return alarms;
@@ -27,9 +46,11 @@ class _ProgramAlarmPageState extends State<ProgramAlarmPage> {
 
   @override
   Widget build(BuildContext context) {
+    final sleepProvider = Provider.of<SleepProvider>(context, listen: false);
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(180),
+        preferredSize: const Size.fromHeight(180),
         child: Container(
           height: 190,
           decoration: const BoxDecoration(
@@ -40,134 +61,94 @@ class _ProgramAlarmPageState extends State<ProgramAlarmPage> {
             ),
           ),
           child: Stack(
-            clipBehavior: Clip.none,
             children: [
               Positioned(
                 top: 45,
                 left: 16,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
               Positioned(
                 top: -55,
                 right: 30,
-                child: SizedBox(
-                  width: 330,
-                  height: 330,
-                  child: Image.asset(
-                    'assets/luna.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
+                child: Image.asset('assets/luna.png', width: 330, height: 330),
               ),
-              Positioned(
+              const Positioned(
                 top: 120,
                 left: 35,
                 child: Text(
                   'Programar Alarma',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
             ],
           ),
         ),
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.only(top: 50),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 280,
-              height: 280,
-              child: Image.asset(
-                'assets/Programa_Alarma.png',
-                fit: BoxFit.contain,
+      body: Column(
+        children: [
+          const SizedBox(height: 30),
+          Image.asset('assets/Programa_Alarma.png', width: 280, height: 280),
+          if (_selectedTime == null)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListTile(
+                title: const Text('Selecciona la hora de dormir'),
+                trailing: const Icon(Icons.access_time),
+                onTap: () async {
+                  final picked = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
+                  if (picked != null) {
+                    setState(() => _selectedTime = picked);
+                  }
+                },
               ),
             ),
+          if (_selectedTime != null)
+            ..._calculateAlarms(_selectedTime!).asMap().entries.map((entry) {
+              final index = entry.key;
+              final alarm = entry.value;
 
-            // Botón para seleccionar la hora de dormir
-            if (_selectedTime == null)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xF5EFF7FD),
-                    borderRadius: BorderRadius.circular(16.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      'Selecciona la hora de dormir',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    trailing: Icon(Icons.access_time),
-                    onTap: () async {
-                      TimeOfDay? picked = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.now(),
-                      );
-                      if (picked != null) {
-                        setState(() {
-                          _selectedTime = picked;
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ),
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    setState(() => _selectedIndex = index);
 
-            // Mostrar alarmas después de seleccionar la hora
-            if (_selectedTime != null) ...[
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'Alarmas programadas:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 10),
-              ..._calculateAlarms(_selectedTime!).map(
-                (alarmTime) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    await sleepProvider.registrarSueno(
+                      usuarioId: 1,
+                      duracionHoras: alarm['duration'],
+                      fecha: DateTime.now(),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Sueño registrado")),
+                    );
+                  },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xF5EFF7FD),
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(2, 2),
-                        ),
-                      ],
+                      color: _selectedIndex == index
+                          ? const Color(0xFFBFD7ED) // seleccionado
+                          : const Color(0xF5EFF7FD), // no seleccionado
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
                     ),
                     child: ListTile(
-                      title: Text('Alarma a las: ${alarmTime.format(context)}'),
-                      trailing: Icon(Icons.alarm),
+                      title: Text('Alarma a las: ${alarm['time'].format(context)}'),
+                      subtitle: Text('Horas de sueño: ${_formatDuration(alarm['duration'])}'),
+                      trailing: Icon(
+                        Icons.check_circle,
+                        color: _selectedIndex == index ? Colors.green : Colors.grey,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ],
-        ),
+              );
+            }),
+        ],
       ),
     );
   }

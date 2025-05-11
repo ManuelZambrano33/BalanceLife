@@ -34,7 +34,7 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<ActividadFisicaProvider>(); // ✅ Escucha cambios
+    final provider = context.watch<ActividadFisicaProvider>(); 
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(

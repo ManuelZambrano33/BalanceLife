@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:front_balancelife/modulos/modulo_sleep/viewmodel/sleep_viewmodel.dart';
+import 'package:front_balancelife/Provider/sueno_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../repo/notification_service.dart'; // Importa el servicio de notificaciones
+import '../repo/notification_service.dart';
 
 class NapPage extends StatefulWidget {
   const NapPage({super.key});
 
   @override
-  _NapPageState createState() => _NapPageState();
+  State<NapPage> createState() => _NapPageState();
 }
 
 class _NapPageState extends State<NapPage> {
   @override
   void initState() {
     super.initState();
-    NotificationService.initialize(); // Inicializa las notificaciones una vez
+    NotificationService.initialize();
   }
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<SleepViewModel>(context, listen: false);
-    final napTime = viewModel.obtenerHoraSiesta();
+    final provider = Provider.of<SleepProvider>(context, listen: false);
+
+    final now = DateTime.now();
+    final wakeUpTime = now.add(const Duration(minutes: 25));
+    final formattedWakeUp = "${wakeUpTime.hour.toString().padLeft(2, '0')}:${wakeUpTime.minute.toString().padLeft(2, '0')}";
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(180),
+        preferredSize: const Size.fromHeight(180),
         child: Container(
           height: 190,
           decoration: const BoxDecoration(
@@ -42,10 +44,8 @@ class _NapPageState extends State<NapPage> {
                 top: 45,
                 left: 16,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
               Positioned(
@@ -54,22 +54,15 @@ class _NapPageState extends State<NapPage> {
                 child: SizedBox(
                   width: 330,
                   height: 330,
-                  child: Image.asset(
-                    'assets/luna.png',
-                    fit: BoxFit.contain,
-                  ),
+                  child: Image.asset('assets/luna.png', fit: BoxFit.contain),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 top: 120,
                 left: 35,
                 child: Text(
                   'Siesta',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
             ],
@@ -81,47 +74,49 @@ class _NapPageState extends State<NapPage> {
         child: ListView(
           children: [
             SizedBox(
-              width: 300, // o el ancho que quieras
+              width: 300,
               height: 300,
-              child: Image.asset(
-                'assets/Siesta.png',
-                fit: BoxFit.contain, // o cover si prefieres
-              ),
+              child: Image.asset('assets/Siesta.png', fit: BoxFit.contain),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xF5EFF7FD),
+                  color: const Color(0xF5EFF7FD),
                   borderRadius: BorderRadius.circular(16.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(2, 2),
-                    ),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2)),
                   ],
                 ),
                 child: ListTile(
-                  title: Text(
-                    "Despierta en 25 minutos",
-                    style: TextStyle(color: Colors.black),
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Despierta en 25 minutos"),
+                      const SizedBox(height: 4),
+                      Text("⏰ $formattedWakeUp", style: const TextStyle(fontWeight: FontWeight.bold)),
+                    ],
                   ),
-                  subtitle: Text(
-                    "Hora: ${napTime.hour.toString().padLeft(2, '0')}:${napTime.minute.toString().padLeft(2, '0')}",
+                  trailing: ElevatedButton(
+                    onPressed: () async {
+                      await provider.registrarSueno(
+                        usuarioId: 1,
+                        duracionHoras: 0.42,
+                        fecha: DateTime.now(),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Alarma programada para la siesta 💤"),
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1C2F59),
+                    ),
+                    child: const Text("Registrar", style: TextStyle(color: Colors.white)),
                   ),
-                  leading: Icon(Icons.alarm, color: Colors.indigo),
-                  onTap: () async {
-                    await NotificationService.scheduleNapNotification(napTime);
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Alarma programada para la siesta 💤"),
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                  },
                 ),
               ),
             ),
