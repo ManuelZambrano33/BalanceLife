@@ -5,6 +5,8 @@ import 'package:front_balancelife/modulos/modulo_config/view/informacion/info_vi
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home.dart';
 import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmodel.dart';
 import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
+import 'package:front_balancelife/services/auth_service.dart';
+import 'package:front_balancelife/services/sharedpreference_service.dart';
 import 'package:provider/provider.dart';
 
 class HomeConfigView extends StatelessWidget {
@@ -126,7 +128,12 @@ class HomeConfigView extends StatelessWidget {
                     }),
                     const SizedBox(height: 330),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async{
+                        print(
+                          "Cerrando sesión y eliminando datos del usuario",
+                        );
+                        await SharedPreferencesService().clearUserData();
+                        await AuthService().deleteSessionToken();
                         Navigator.pushReplacementNamed(context, '/');
                       },
                       style: ElevatedButton.styleFrom(

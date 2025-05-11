@@ -24,6 +24,8 @@ import 'package:front_balancelife/modulos/modulo_minijuegos/viewmodel/fruit_game
 import 'package:front_balancelife/modulos/modulo_sleep/view/sleep_page.dart';
 import 'package:front_balancelife/modulos/modulo_sleep/viewmodel/sleep_viewmodel.dart';
 import 'package:front_balancelife/notificaciones/helper.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
+import 'package:front_balancelife/services/sharedpreference_service.dart';
 import 'package:provider/provider.dart';
 import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
 import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
@@ -44,6 +46,22 @@ void main() async {
   );
   // Inicializar las notificaciones y obtener el token FCM
   await FirebaseService().initializeNotifications();
+  
+    // Obtener los datos guardados en SharedPreferences
+  Map<String, dynamic> userData = await SharedPreferencesService().getUserData();
+
+  // Cargar los datos del usuario en el UserServiceModel
+  UserServiceModel.id_usuario = userData['id'];
+  UserServiceModel.nombre = userData['nombre']?.isEmpty ?? true ? 'Usuario desconocido' : userData['nombre'];
+  UserServiceModel.email = userData['email']?.isEmpty ?? true ? 'Email desconocido' : userData['email'];
+  UserServiceModel.birthday = userData['birthday'];
+  
+  print("DESDE EL MAIN");
+  print('ID: ${UserServiceModel.id_usuario}');
+  print('Nombre: ${UserServiceModel.nombre}');
+  print('Email: ${UserServiceModel.email}');
+  print('Cumpleaños: ${UserServiceModel.birthday}');
+
 
   // Iniciar aplicación con MultiProvider
   runApp(

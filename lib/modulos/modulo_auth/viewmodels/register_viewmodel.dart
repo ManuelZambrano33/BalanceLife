@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart';
+import '../../../services/auth_service.dart';
 import '../model/usuario_model.dart';
 
 class RegisterViewModel extends ChangeNotifier {

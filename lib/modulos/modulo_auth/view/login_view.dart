@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:front_balancelife/Provider/user_provider.dart';
+import 'package:front_balancelife/modulos/modulo_auth/view/biometric_confirmation_dialog%20copy.dart';
+import 'package:front_balancelife/services/auth_service.dart';
+import 'package:local_auth/local_auth.dart';
+import 'biometric_confirmation_dialog.dart'; // Asegúrate de tener este archivo
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -11,12 +16,23 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _storage = FlutterSecureStorage();
+  bool _showBiometricButton = false;
 
   @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _checkBiometricStatus();
+  }
+
+  Future<void> _checkBiometricStatus() async {
+    final token = await AuthService().readToken();
+    print("Token encontrado: $token");
+    if (token == null) {
+      setState(() => _showBiometricButton = false);
+    } else {
+      setState(() => _showBiometricButton = true);
+    }
   }
 
   Future<void> _handleLogin() async {
@@ -24,21 +40,119 @@ class _LoginViewState extends State<LoginView> {
     final password = _passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor completa todos los campos')),
-      );
+      _showSnackbar('Por favor completa todos los campos');
       return;
     }
 
-    final success = await UserProvider.login(email, password);
-
+    final success = await UserProvider.loginUser(email, password);
+    print("Login success: $success");
     if (success) {
-      Navigator.pushReplacementNamed(context, '/homeView');
+      final longToken = await AuthService().readToken();
+      print("Long Token: $longToken");
+      if (longToken == null) {
+        _showEnableBiometricDialog(email);
+      } else {
+        _navigateToHome();
+      }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Credenciales incorrectas')),
-      );
+      _showSnackbar('Credenciales incorrectas');
     }
+  }
+
+  void _showEnableBiometricDialog(String email) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Habilitar Huella Digital'),
+        content: const Text('¿Deseas habilitar el inicio de sesión con huella digital?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder: (context) => BiometricConfirmationDialog(),
+              );
+              
+              if (confirmed ?? false) {
+                _validateCredentialsForBiometric(email);
+              }
+            },
+            child: const Text('Habilitar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _validateCredentialsForBiometric(String email) async {
+    final isValid = await showDialog<bool>(
+      context: context,
+      builder: (context) => CredentialValidationDialog(
+        email: email,
+        password: _passwordController.text,
+      ),
+    );
+    print("Validación de credenciales PARA GENERAR EL LONG TOKEN: $isValid");
+    if (isValid ?? false) {
+      await _enableBiometricAuthentication(email);
+    }
+  }
+
+  Future<void> _enableBiometricAuthentication(String email) async {
+    try {
+      final success = await UserProvider.habilitarHuella(email);
+      print("SI LLEGA A Habilitar huella success???: $success");
+      if (success) {
+        setState(() => _showBiometricButton = true);
+        _navigateToHome();
+      }
+    } catch (e) {
+      _showSnackbar('Error al configurar huella: $e');
+    }
+  }
+
+  Future<void> _handleBiometricLogin() async {
+    try {
+      final longToken = await AuthService().readToken();
+      if (longToken == null) return;
+
+      final authenticated = await showDialog<bool>(
+        context: context,
+        builder: (context) => BiometricConfirmationDialog(),
+      );
+
+      if (authenticated ?? false) {
+        final newToken = await UserProvider.verifyLongToken(longToken);
+        if (newToken != null) {
+          _navigateToHome();
+        }
+      }
+    } catch (e) {
+      _showSnackbar('Error de autenticación: $e');
+    }
+  }
+
+  void _navigateToHome() {
+    print("Navegando a la vista de inicio");
+    Navigator.pushReplacementNamed(context, '/homeView');
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -111,6 +225,12 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    if (_showBiometricButton)
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.fingerprint),
+                        label: const Text('Usar huella digital'),
+                        onPressed: _handleBiometricLogin,
+                      ),
                     TextButton(
                       onPressed: () => Navigator.pushNamed(context, '/register'),
                       child: const Text(
