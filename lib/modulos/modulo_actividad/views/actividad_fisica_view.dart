@@ -1,6 +1,7 @@
 // lib/modulos/modulo_actividad/views/actividad_fisica_view.dart
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/actividad_provider.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -124,7 +125,7 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   onPressed: () async {
-                    provider.guardarActividad(1); // Usa el ID de usuario real si lo tienes
+                    provider.guardarActividad(UserServiceModel.id_usuario ?? 0); 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Actividad registrada')),
                     );

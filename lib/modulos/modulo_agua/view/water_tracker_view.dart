@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/hidratacion_provider.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
 import 'package:provider/provider.dart';
 
 class WaterTrackerView extends StatefulWidget {
@@ -121,7 +122,7 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
                           return;
                         }
                         context.read<HidratacionProvider>().registrarHidratacion(
-                              usuarioId: 1,
+                              usuarioId: UserServiceModel.id_usuario ?? 0,
                               cantidad: input,
                               fecha: DateTime.now(),
                             );
