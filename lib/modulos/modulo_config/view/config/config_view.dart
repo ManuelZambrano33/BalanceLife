@@ -151,7 +151,6 @@ class ConfigView extends StatelessWidget {
                   const SizedBox(width: 16),
                   Text(
                     title,
-                    style: const TextStyle(color: Colors.black),
                   ),
                 ],
               ),

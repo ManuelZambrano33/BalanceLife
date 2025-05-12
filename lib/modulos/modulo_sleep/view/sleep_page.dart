@@ -76,6 +76,7 @@ class SleepPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.6, 
             ),
             
+            const SizedBox(height: 20),
             Expanded(
               child: ListView(
                 children: [
@@ -111,7 +112,7 @@ class SleepPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Color(0xF5EFF7FD),
+          color: Color.fromARGB(245, 63, 113, 152),
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(

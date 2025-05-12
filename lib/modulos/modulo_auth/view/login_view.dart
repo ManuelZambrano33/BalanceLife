@@ -97,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
         password: _passwordController.text,
       ),
     );
-    print("Validación de credenciales PARA GENERAR EL LONG TOKEN: $isValid");
+    print("Validación de credenciales PARA GENERAR EL LONG: $isValid");
     if (isValid ?? false) {
       await _enableBiometricAuthentication(email);
     }
@@ -158,7 +158,6 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Positioned(
@@ -183,7 +182,7 @@ class _LoginViewState extends State<LoginView> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF8E24AA),
+                        color: Color.fromARGB(255, 215, 73, 254),
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -236,7 +235,7 @@ class _LoginViewState extends State<LoginView> {
                       child: const Text(
                         '¿No tienes cuenta? Regístrate aquí',
                         style: TextStyle(
-                          color: Color(0xFF8E24AA),
+                          color: Color.fromARGB(255, 174, 44, 209),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
