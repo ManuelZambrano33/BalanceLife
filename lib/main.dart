@@ -15,6 +15,7 @@ import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmo
 import 'package:front_balancelife/modulos/modulo_config/repo/config/settings_repository.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
+import 'package:front_balancelife/modulos/modulo_estadisticas/views/pages/estadisticas_hidratacion.dart';
 import 'package:front_balancelife/modulos/modulo_logros/view/logro_page.dart';
 import 'package:front_balancelife/modulos/modulo_minijuegos/repo/user_repository.dart';
 import 'package:front_balancelife/modulos/modulo_minijuegos/view/fruit_game_view.dart';
@@ -30,7 +31,6 @@ import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.
 import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
 import 'package:front_balancelife/modulos/modulo_agua/view/water_tracker_view.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/viewmodels/stats_viewmodel.dart';
-import 'package:front_balancelife/modulos/modulo_estadisticas/views/stat_view.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view_model/habit_view_model.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view/habits_view.dart';
 import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart';
@@ -75,7 +75,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => HabitViewModel()),
         ChangeNotifierProvider(create: (context) => LoginViewModel()),
         ChangeNotifierProvider(create: (context) => AlimentacionProvider()),
-        ChangeNotifierProvider(create: (_) => HidratacionProvider()),
+        // ChangeNotifierProvider(create: (_) => HidratacionProvider()),
         ChangeNotifierProvider(create: (context) => ActividadFisicaProvider()),
         ChangeNotifierProvider(create: (context) => SleepProvider()),
 
@@ -107,7 +107,6 @@ class MyApp extends StatelessWidget {
         '/homeView': (context) => const HomeView(),
         '/register': (context) => RegisterView(),
         '/water_tracker': (context) => const WaterTrackerView(),
-        '/stats': (context) => const StatsView(),
         '/menuEstadisticas': (context) => const MenuEstadisticas(),
         '/habits': (context) => HabitsView(),
         '/addHabit': (context) => AddHabitView(),
@@ -119,6 +118,7 @@ class MyApp extends StatelessWidget {
         '/exercise': (context) => const ActividadFisicaView(),
         '/healthy_food': (context) => const FoodEntryView(),
         '/avatar': (context) => AvatarView(),
+        '/estadisticas_hidratacion': (context) => EstadisticasHidratacion(),
       },
     );
   }

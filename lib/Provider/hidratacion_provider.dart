@@ -1,47 +1,68 @@
-
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:front_balancelife/Provider/general_endpoint.dart';
 
 class HidratacionStat {
   final DateTime fecha;
-  final int cantidad; 
+  final int cantidad;
 
   HidratacionStat({required this.fecha, required this.cantidad});
 
   factory HidratacionStat.fromJson(Map<String, dynamic> json) {
-    return HidratacionStat(
-      fecha: DateTime.parse(json['fecha'] as String),
-      cantidad: (json['cantidad'] as num).toInt(),
+    var stats = HidratacionStat(
+      fecha: DateTime.parse(json['fecha_completa'] as String),
+      cantidad: int.tryParse(json['total_agua'].toString()) ?? 0,
     );
+
+    print("HidratacionStat: $stats");
+    return stats;
   }
 }
 
-class HidratacionProvider extends ChangeNotifier {
-  final String _baseUrl = 'http://192.168.1.6:3000/api/ModuloHabitoHidratacion';
+class HidratacionProvider {
+  static const String module = "ModuloHabitoHidratacion";
 
-  // ——— Estado para el registro ———
-  bool isRegistering = false;
-  bool registerSuccess = false;
-  String? registerError;
-
-  // ——— Estado para estadísticas ———
-  bool isFetchingStats = false;
-  String? statsError;
-  List<HidratacionStat> statsData = [];
-
-  /// Llama a POST /registrarHidratacion
-  Future<void> registrarHidratacion({
+  static Future<List<HidratacionStat>> obtenerEstadisticas({
     required int usuarioId,
-    required int cantidad,      // en ml o número de vasos, según tu backend
+    required DateTime date,
+  }) async {
+    final url = GeneralEndpoint.getEndpoint('$module/estadisticas');
+
+    final body = jsonEncode({
+      'id_usuario': usuarioId.toString(),
+      'date': date.toIso8601String(),
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+      print("Response: ${response.statusCode} - ${response.body}");
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body)['data'] as List;
+        
+        return data
+            .map((e) => HidratacionStat.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } else {
+        print("Error al obtener estadísticas: ${response.statusCode} - ${response.body}");
+        return [];
+      }
+    } catch (e) {
+      print("Error en la solicitud de estadísticas: $e");
+      return [];
+    }
+  }
+
+  static Future<bool> registrarHidratacion({
+    required int usuarioId,
+    required int cantidad,
     required DateTime fecha,
   }) async {
-    isRegistering = true;
-    registerSuccess = false;
-    registerError = null;
-    notifyListeners();
+    final url = GeneralEndpoint.getEndpoint('$module/registrar');
 
-    final url = Uri.parse('$_baseUrl/registrar'); // debe coincidir con tu ruta
     final body = jsonEncode({
       'id_usuario': usuarioId,
       'cantidad': cantidad,
@@ -49,59 +70,22 @@ class HidratacionProvider extends ChangeNotifier {
     });
 
     try {
-      final resp = await http.post(
-        url,
+      final response = await http.post(
+        Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
-      if (resp.statusCode == 200) {
-        registerSuccess = true;
+
+      if (response.statusCode == 200) {
+        print("Registro de hidratación exitoso.");
+        return true;
       } else {
-        registerError = 'Error ${resp.statusCode}: ${resp.body}';
+        print("Error en el registro: ${response.statusCode} - ${response.body}");
+        return false;
       }
     } catch (e) {
-      registerError = e.toString();
-    } finally {
-      isRegistering = false;
-      notifyListeners();
-    }
-  }
-
-  /// Llama a POST /getEstadisticas
-  Future<void> obtenerEstadisticas({
-    required int usuarioId,
-    required DateTime date, // la fecha desde la cual quieres estadísticas
-  }) async {
-    isFetchingStats = true;
-    statsError = null;
-    statsData = [];
-    notifyListeners();
-
-    final url = Uri.parse('$_baseUrl/estadisticas'); // o '/getEstadisticas'
-    final body = jsonEncode({
-      'id_usuario': usuarioId.toString(),
-      'date': date.toIso8601String(),
-    });
-
-    try {
-      final resp = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: body,
-      );
-      if (resp.statusCode == 200) {
-        final data = jsonDecode(resp.body)['data'] as List;
-        statsData = data
-            .map((e) => HidratacionStat.fromJson(e as Map<String, dynamic>))
-            .toList();
-      } else {
-        statsError = 'Error ${resp.statusCode}: ${resp.body}';
-      }
-    } catch (e) {
-      statsError = e.toString();
-    } finally {
-      isFetchingStats = false;
-      notifyListeners();
+      print("Error al registrar hidratación: $e");
+      return false;
     }
   }
 }
