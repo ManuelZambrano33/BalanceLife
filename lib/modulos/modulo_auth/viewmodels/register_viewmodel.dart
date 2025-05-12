@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart';
+import '../../../services/auth_service.dart';
 import '../model/usuario_model.dart';
 
 class RegisterViewModel extends ChangeNotifier {
@@ -11,6 +11,7 @@ class RegisterViewModel extends ChangeNotifier {
 
   Future<bool> register(BuildContext context) async {
     final usuario = Usuario(nombre: nombre, email: email, contrasena: password);
-    return await _authService.register(usuario);
+    // return await _authService.register(usuario);
+    return false;
   }
 }

@@ -23,7 +23,6 @@ class _AddHabitViewState extends State<AddHabitView> {
     final habitViewModel = Provider.of<HabitViewModel>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
       body: SingleChildScrollView(
          child: Column(
           children: [

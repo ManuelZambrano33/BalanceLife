@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmodel.dart';
 import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/home_viewmodel.dart';
 import 'widgets/habit_card.dart';
@@ -74,9 +75,9 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Text(
-                          "¡Hola, Bienvenido!",
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        Text(
+                          "¡Hola, ${UserServiceModel.nombre}!",
+                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

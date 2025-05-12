@@ -11,11 +11,8 @@ class HabitDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(habit.name, style: TextStyle(color: Colors.black)),
-        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(habit.name),
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -64,7 +61,7 @@ class HabitDetailView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
               ),
-              child: Text('Cerrar', style: TextStyle(fontSize: 16, color: Colors.white)),
+              child: Center(child: Text('Cerrar', style: TextStyle(fontSize: 16, color: Colors.white))),
             ),
           ],
         ),

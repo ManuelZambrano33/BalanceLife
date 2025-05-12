@@ -23,7 +23,6 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
     final hidrProv = context.watch<HidratacionProvider>();
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -9,7 +9,6 @@ class MenuEstadisticas extends StatelessWidget {
   Widget build(BuildContext context) {
     int currentIndex = 1;
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

@@ -11,7 +11,6 @@ class HabitsView extends StatelessWidget {
     final habitViewModel = Provider.of<HabitViewModel>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
       body: SafeArea(
         top: false,
         child: ListView(
