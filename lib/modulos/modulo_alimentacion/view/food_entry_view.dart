@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/alimentacion_provider.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
 import 'package:provider/provider.dart';
 
 class FoodEntryView extends StatefulWidget {
@@ -119,7 +120,7 @@ class _FoodEntryViewState extends State<FoodEntryView> {
                           onPressed: () {
                             if (_tipo == null || _caloriasCtrl.text.isEmpty) return;
                             context.read<AlimentacionProvider>().registrarAlimentacion(
-                                  usuarioId: 1, //context.read<AuthProvider>().user!.idUsuario, <---- ESO SE PONE CUANDO ESTE EL LOGIN FUNCIONANDO
+                                  usuarioId: UserServiceModel.id_usuario ?? 0, 
                                   tipoComida: _tipo!,
                                   calorias: double.tryParse(_caloriasCtrl.text) ?? 0,
                                   fecha: DateTime.now(),

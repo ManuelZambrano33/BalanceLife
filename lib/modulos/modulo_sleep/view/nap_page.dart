@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/sueno_provider.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
 import 'package:provider/provider.dart';
 import '../repo/notification_service.dart';
 
@@ -100,7 +101,7 @@ class _NapPageState extends State<NapPage> {
                   trailing: ElevatedButton(
                     onPressed: () async {
                       await provider.registrarSueno(
-                        usuarioId: 1,
+                        usuarioId: UserServiceModel.id_usuario ?? 0,
                         duracionHoras: 0.42,
                         fecha: DateTime.now(),
                       );

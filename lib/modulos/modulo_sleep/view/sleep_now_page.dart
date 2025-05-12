@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/sueno_provider.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -88,7 +89,7 @@ class _SleepNowPageState extends State<SleepNowPage> {
             });
 
             await provider.registrarSueno(
-              usuarioId: 1,
+              usuarioId: UserServiceModel.id_usuario ?? 0,
               duracionHoras: duracionHoras,
               fecha: DateTime.now(),
             );

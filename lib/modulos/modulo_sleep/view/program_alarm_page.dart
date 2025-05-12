@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/sueno_provider.dart';
+import 'package:front_balancelife/services/UserServiceModel.dart';
 import 'package:provider/provider.dart';
 
 class ProgramAlarmPage extends StatefulWidget {
@@ -120,7 +121,7 @@ class _ProgramAlarmPageState extends State<ProgramAlarmPage> {
                     setState(() => _selectedIndex = index);
 
                     await sleepProvider.registrarSueno(
-                      usuarioId: 1,
+                      usuarioId: UserServiceModel.id_usuario ?? 0,
                       duracionHoras: alarm['duration'],
                       fecha: DateTime.now(),
                     );
