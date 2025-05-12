@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:front_balancelife/modulos/modulo_habito/model/config_colors.dart';
 import 'package:front_balancelife/modulos/modulo_home/viewmodels/home_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../view_model/habit_view_model.dart';

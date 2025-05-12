@@ -12,15 +12,15 @@ class HomeViewModel extends ChangeNotifier {
     ),
     HabitModel(
       title: "Actividad Física",
-      iconPath: "assets/actividad_fisica.png",
-      color: const Color(0xFFE07A5F),
+      iconPath: "assets/3.png",
+      color: const Color.fromARGB(255, 211, 125, 101),
       route: "/exercise",
       height: 200,
     ),
     HabitModel(
       title: "Alimentación Saludable",
       iconPath: "assets/alimentacion.png",
-      color: const Color.fromARGB(255, 42, 110, 90),
+      color: const Color(0xFF437A9D),
       route: "/healthy_food",
       height: 200,
     ),
@@ -41,7 +41,7 @@ class HomeViewModel extends ChangeNotifier {
     HabitModel(
       title: "Habitos",
       iconPath: "assets/habito.png",
-      color: const Color.fromRGBO(168,194,86,1),
+      color: const Color(0xFF9A91B4),
       route: "/habits",
       height: 200,
     ),

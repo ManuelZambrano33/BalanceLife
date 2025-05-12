@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Asegúrate de importar intl en pubspec.yaml
+import 'package:front_balancelife/Provider/sueno_provider.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class SleepNowPage extends StatelessWidget {
+class SleepNowPage extends StatefulWidget {
   const SleepNowPage({super.key});
 
-  // Función que calcula la hora sumando los minutos indicados
+  @override
+  State<SleepNowPage> createState() => _SleepNowPageState();
+}
+
+class _SleepNowPageState extends State<SleepNowPage> {
+  int? selectedCiclo;
+
   String calcularHoraDespertar(int minutos) {
     final ahora = DateTime.now().add(Duration(minutes: minutos));
-    final formato = DateFormat('hh:mm a'); // Puedes cambiar a 'HH:mm' si prefieres formato 24h
-    return formato.format(ahora);
+    return DateFormat('hh:mm a').format(ahora);
   }
 
   @override
   Widget build(BuildContext context) {
+    final sleepProvider = Provider.of<SleepProvider>(context, listen: false);
+
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(180),
+        preferredSize: const Size.fromHeight(180),
         child: Container(
           height: 190,
           decoration: const BoxDecoration(
@@ -26,87 +35,90 @@ class SleepNowPage extends StatelessWidget {
             ),
           ),
           child: Stack(
-            clipBehavior: Clip.none,
             children: [
               Positioned(
                 top: 45,
                 left: 16,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () => Navigator.pop(context),
                 ),
               ),
               Positioned(
                 top: -55,
                 right: 30,
-                child: SizedBox(
-                  width: 330,
-                  height: 330,
-                  child: Image.asset(
-                    'assets/luna.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
+                child: Image.asset('assets/luna.png', width: 330, height: 330),
               ),
-              Positioned(
+              const Positioned(
                 top: 120,
                 left: 35,
                 child: Text(
                   'Duerme Ahora',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
               ),
             ],
           ),
         ),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.only(top: 50),
-        child: ListView(
-          children: [
-            SizedBox(
-              width: 260,
-              height: 260,
-              child: Image.asset(
-                'assets/Duerme_Ahora.png',
-                fit: BoxFit.contain,
-              ),
-            ),
-            _buildCard("Despierta después de 4 ciclos", calcularHoraDespertar(4 * 90)),
-            _buildCard("Despierta después de 5 ciclos", calcularHoraDespertar(5 * 90)),
-            _buildCard("Despierta después de 6 ciclos", calcularHoraDespertar(6 * 90)),
-          ],
-        ),
+        children: [
+          Image.asset('assets/Duerme_Ahora.png', width: 260, height: 260),
+          ..._buildCards(context, sleepProvider),
+        ],
       ),
     );
   }
 
-  Widget _buildCard(String title, String subtitle) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xF5EFF7FD),
-          borderRadius: BorderRadius.circular(16.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 4,
-              offset: Offset(2, 2),
+  List<Widget> _buildCards(BuildContext context, SleepProvider provider) {
+    final ciclos = [4, 5, 6];
+
+    return ciclos.map((ciclo) {
+      final duracionHoras = ciclo * 90 / 60.0;
+      final minutos = ciclo * 90;
+      final isSelected = selectedCiclo == ciclo;
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: GestureDetector(
+          onTap: () async {
+            setState(() {
+              selectedCiclo = ciclo;
+            });
+
+            await provider.registrarSueno(
+              usuarioId: 1,
+              duracionHoras: duracionHoras,
+              fecha: DateTime.now(),
+            );
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Sueño registrado"),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: isSelected ? const Color(0xFFD8EAE0) : const Color(0xF5EFF7FD),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2)),
+              ],
             ),
-          ],
+            child: ListTile(
+              title: Text("Despierta después de $ciclo ciclos"),
+              subtitle: Text("Hora: ${calcularHoraDespertar(minutos)}"),
+              trailing: Icon(
+                isSelected ? Icons.check_circle : Icons.check_circle_outline,
+                color: isSelected ? Colors.green : Colors.blueAccent,
+              ),
+            ),
+          ),
         ),
-        child: ListTile(
-          title: Text(title),
-          subtitle: Text(subtitle),
-        ),
-      ),
-    );
+      );
+    }).toList();
   }
 }

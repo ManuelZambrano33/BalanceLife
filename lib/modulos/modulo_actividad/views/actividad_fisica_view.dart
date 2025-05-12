@@ -1,6 +1,7 @@
+// lib/modulos/modulo_actividad/views/actividad_fisica_view.dart
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/Provider/actividad_provider.dart';
 import 'package:provider/provider.dart';
-import '../viewmodels/actividad_fisica_viewmodel.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ActividadFisicaView extends StatefulWidget {
@@ -22,6 +23,7 @@ Future<void> solicitarPermisos() async {
 }
 
 class _ActividadFisicaViewState extends State<ActividadFisicaView> {
+
   @override
   void initState() {
     super.initState();
@@ -32,7 +34,7 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<ActividadFisicaViewModel>(context);
+    final provider = context.watch<ActividadFisicaProvider>(); 
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -54,7 +56,7 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
           Positioned(
             top: 140,
             left: 20,
-            child: Text(
+            child: const Text(
               'Actividad Física',
               style: TextStyle(
                 fontSize: 24,
@@ -72,19 +74,18 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
               height: 170,
             ),
           ),
-                     
 
-        
           Padding(
-            
             padding: const EdgeInsets.only(top: 270),
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 6),
                 Center(
                   child: Text(
-                    'Recuerda caminar al menos 10000 pasos al día para mantenerte saludable.',
+                    '💪 4K pasos = ¡Meta inicial! 💪'
+                      '\n🎯 10K = ¡Súper meta! 🎯'
+                      '\n🌿¡Cada paso es una huella hacia tu bienestar! 🌿',
                     style: TextStyle(fontSize: 16, color: Colors.black87),
                     textAlign: TextAlign.center,
                   ),
@@ -92,37 +93,44 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
                 const SizedBox(height: 30),
                 Card(
                   elevation: 4,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: ListTile(
-                    leading: Icon(Icons.directions_walk, color: Color(0xFFE07A5F)),
-                    title: Text('Pasos', style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text('${viewModel.pasos} pasos'),
+                    leading:
+                        Icon(Icons.directions_walk, color: Color(0xFFE07A5F)),
+                    title: Text('Pasos',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text('${provider.pasos} pasos'),
                   ),
                 ),
                 const SizedBox(height: 10),
                 Card(
                   elevation: 4,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                   child: ListTile(
                     leading: Icon(Icons.map, color: Color(0xFFE07A5F)),
-                    title: Text('Distancia', style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text('${viewModel.distancia.toStringAsFixed(2)} km'),
+                    title: Text('Distancia',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text('${provider.distancia.toStringAsFixed(2)} km'),
                   ),
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFE07A5F),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  onPressed: () {
-                    viewModel.guardarActividad(1);
+                  onPressed: () async {
+                    provider.guardarActividad(1); // Usa el ID de usuario real si lo tienes
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Actividad registrada')),
                     );
                   },
-                  child: const Text('Guardar actividad', style: TextStyle(color: Colors.white)),
+                  child:
+                      const Text('Registrar', style: TextStyle(color: Colors.white)),
                 ),
                 const SizedBox(height: 80), // Espacio antes de la nube
               ],
@@ -131,7 +139,7 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
 
           // Nube inferior
           Positioned(
-            bottom: 0,
+            bottom: -30,
             left: 0,
             child: Image.asset(
               'assets/13.png',
