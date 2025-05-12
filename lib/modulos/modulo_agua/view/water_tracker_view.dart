@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/hidratacion_provider.dart';
 import 'package:front_balancelife/services/UserServiceModel.dart';
-import 'package:provider/provider.dart';
 
 class WaterTrackerView extends StatefulWidget {
-  const WaterTrackerView({Key? key}) : super(key: key);
+  const WaterTrackerView({super.key});
 
   @override
   State<WaterTrackerView> createState() => _WaterTrackerViewState();
@@ -12,6 +11,7 @@ class WaterTrackerView extends StatefulWidget {
 
 class _WaterTrackerViewState extends State<WaterTrackerView> {
   final _cantidadCtrl = TextEditingController();
+  bool _isRegistering = false;
 
   @override
   void dispose() {
@@ -19,16 +19,51 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
     super.dispose();
   }
 
+  Future<void> _guardarHidratacion() async {
+    final input = int.tryParse(_cantidadCtrl.text);
+    if (input == null || input <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ingresa una cantidad válida')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isRegistering = true;
+    });
+
+    try {
+
+
+      await HidratacionProvider.registrarHidratacion(
+        cantidad: input,
+        fecha: DateTime.now(),
+        usuarioId: UserServiceModel.id_usuario!,
+      );
+
+      _cantidadCtrl.clear();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('¡Registro exitoso!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    } finally {
+      setState(() {
+        _isRegistering = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final hidrProv = context.watch<HidratacionProvider>();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Encabezado superior
             Container(
               height: 200,
               decoration: const BoxDecoration(
@@ -65,8 +100,6 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
               ),
             ),
             const SizedBox(height: 60),
-
-            // Imagen del vaso
             Center(
               child: Image.asset(
                 'assets/vaso.png',
@@ -74,10 +107,7 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
                 height: 250,
               ),
             ),
-
             const SizedBox(height: 40),
-
-            // Campo de entrada cantidad
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: TextFormField(
@@ -87,7 +117,8 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
                   labelText: 'Cantidad (ml)',
                   filled: true,
                   fillColor: const Color(0xFFEDEDED),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
@@ -99,35 +130,16 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
                       width: 2,
                     ),
                   ),
-                  prefixIcon: const Icon(Icons.local_drink, color: Color(0xFF3F414E)),
+                  prefixIcon:
+                      const Icon(Icons.local_drink, color: Color(0xFF3F414E)),
                 ),
               ),
             ),
             const SizedBox(height: 24),
-
-            // Botón Guardar con color del encabezado
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 80),
               child: ElevatedButton(
-                onPressed: hidrProv.isRegistering
-                    ? null
-                    : () {
-                        final input = int.tryParse(_cantidadCtrl.text);
-                        if (input == null || input <= 0) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Ingresa una cantidad válida'),
-                            ),
-                          );
-                          return;
-                        }
-                        context.read<HidratacionProvider>().registrarHidratacion(
-                              usuarioId: UserServiceModel.id_usuario ?? 0,
-                              cantidad: input,
-                              fecha: DateTime.now(),
-                            );
-                        _cantidadCtrl.clear();
-                      },
+                onPressed: _isRegistering ? null : _guardarHidratacion,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF8E9D2),
                   shape: RoundedRectangleBorder(
@@ -135,7 +147,7 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: hidrProv.isRegistering
+                child: _isRegistering
                     ? const SizedBox(
                         width: 24,
                         height: 24,
@@ -151,8 +163,6 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
               ),
             ),
             const SizedBox(height: 40),
-
-            // Imagen de nubes inferior
             Image.asset(
               'assets/nubes.png',
               width: double.infinity,

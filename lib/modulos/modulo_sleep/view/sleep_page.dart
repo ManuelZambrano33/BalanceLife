@@ -112,7 +112,7 @@ class SleepPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromARGB(245, 63, 113, 152),
+          color: Color.fromARGB(245, 126, 175, 213),
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(
