@@ -9,16 +9,14 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  // Controladores para los campos de texto
   final TextEditingController nombreController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController fechaNacimientoController = TextEditingController();
 
   DateTime? fechaNacimiento;
-  bool isEmailValid = true; // Variable para verificar si el correo es válido
+  bool isEmailValid = true;
 
-  // Función para abrir el selector de fecha
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -34,7 +32,6 @@ class _RegisterViewState extends State<RegisterView> {
     }
   }
 
-  // Validación de campos
   bool _validateFields() {
     if (nombreController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty || fechaNacimientoController.text.isEmpty) {
       return false;
@@ -42,7 +39,6 @@ class _RegisterViewState extends State<RegisterView> {
     return true;
   }
 
-  // Mostrar un diálogo de advertencia
   void _showValidationDialog() {
     showDialog(
       context: context,
@@ -63,9 +59,7 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  // Verificar si el correo es válido
   void _checkEmailValidation(String email) {
-    // Expresión regular para validar el formato del correo
     final emailRegex = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
     setState(() {
       isEmailValid = emailRegex.hasMatch(email);
@@ -75,10 +69,10 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Evita que la pantalla se mueva cuando aparece el teclado
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Imagen superior izquierda
           Positioned(
             top: 0,
             left: 0,
@@ -87,8 +81,6 @@ class _RegisterViewState extends State<RegisterView> {
               width: 230,
             ),
           ),
-
-          // Imagen inferior derecha
           Positioned(
             bottom: 0,
             right: 0,
@@ -97,12 +89,10 @@ class _RegisterViewState extends State<RegisterView> {
               width: 230,
             ),
           ),
-
-          // Contenido principal (Formulario)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Center(
-              child: SingleChildScrollView(
+              child: SingleChildScrollView( // Permite que solo los campos se deslicen
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -126,7 +116,6 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Campo de correo electrónico con validación
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
@@ -135,12 +124,10 @@ class _RegisterViewState extends State<RegisterView> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         prefixIcon: const Icon(Icons.email),
-                        // Mostrar mensaje de error si el correo no es válido
                       ),
-                      onChanged: _checkEmailValidation, // Verificar en tiempo real
+                      onChanged: _checkEmailValidation,
                     ),
                     const SizedBox(height: 5),
-                    // Si el correo es inválido, mostramos un mensaje de error
                     if (!isEmailValid)
                       const Text(
                         'Debe ser un correo válido',
@@ -162,7 +149,6 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Campo para la fecha de nacimiento
                     GestureDetector(
                       onTap: () => _selectDate(context),
                       child: AbsorbPointer(
@@ -193,15 +179,13 @@ class _RegisterViewState extends State<RegisterView> {
                           return;
                         }
 
-                        // Recuperamos los valores de los campos
                         String nombre = nombreController.text;
                         String email = emailController.text;
                         String password = passwordController.text;
                         String fechaNacimientoStr = fechaNacimiento != null
-                            ? fechaNacimiento!.toIso8601String().split("T")[0] // Solo la fecha
+                            ? fechaNacimiento!.toIso8601String().split("T")[0]
                             : '';
 
-                        // Llamamos a la función de registro desde UserProvider
                         bool result = await UserProvider.register(
                           nombre,
                           email,
@@ -210,13 +194,11 @@ class _RegisterViewState extends State<RegisterView> {
                         );
 
                         if (result) {
-                          // Si el registro es exitoso, navegamos o mostramos un mensaje
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Registro exitoso')),
                           );
-                            Navigator.pushReplacementNamed(context, '/homeView');
+                          Navigator.pushReplacementNamed(context, '/homeView');
                         } else {
-                          // Si el registro falla, mostramos un mensaje de error
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Error en el registro')),
                           );

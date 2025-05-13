@@ -4,7 +4,7 @@ import 'package:front_balancelife/modulos/modulo_alimentacion/model/food_entry_m
 import 'package:http/http.dart' as http;
 
 class AlimentacionProvider extends ChangeNotifier {
-  final String _baseUrl = 'http://192.168.1.6:3000/api/ModuloHabitoAlimentacion';
+  final String _baseUrl = 'http://192.168.1.7:3000/api/ModuloHabitoAlimentacion';
 
   // Estado para registrar
   bool isRegistering = false;

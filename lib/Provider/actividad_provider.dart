@@ -16,28 +16,43 @@ class ActividadFisicaStat {
   });
 
   factory ActividadFisicaStat.fromJson(Map<String, dynamic> json) {
+    print("👉 JSON recibido: $json");
+    print("👉 Tipo de pasos: ${json['pasos'].runtimeType}");
+    print("👉 Tipo de kilometros: ${json['kilometros'].runtimeType}");
+    
+    // Manejo seguro de la fecha
+    final fechaUtc = DateTime.parse(json['fecha_completa']);
+    final fecha = DateTime(fechaUtc.year, fechaUtc.month, fechaUtc.day);
+    
+    // Conversión segura de pasos
+    final pasos = json['pasos'] is String 
+        ? int.tryParse(json['pasos']) ?? 0
+        : (json['pasos'] as num?)?.toInt() ?? 0;
+    
+    // Conversión segura de kilómetros
+    final kilometros = json['kilometros'] is String
+        ? double.tryParse(json['kilometros']) ?? 0.0
+        : (json['kilometros'] as num?)?.toDouble() ?? 0.0;
+
     return ActividadFisicaStat(
-      fecha: DateTime.parse(json['fecha_completa']),
-      pasos: json['pasos'],
-      kilometros: (json['kilometros'] as num).toDouble(),
+      fecha: fecha,
+      pasos: pasos,
+      kilometros: kilometros,
     );
   }
 }
 
 class ActividadFisicaProvider extends ChangeNotifier {
-  final String _baseUrl = 'http://192.168.1.6:3000/api/ModuloHabitoActividadFisica';
+  final String _baseUrl = 'http://192.168.1.7:3000/api/ModuloHabitoActividadFisica';
 
-  // ——— Estado para el registro ———
   bool isRegistering = false;
   bool registerSuccess = false;
   String? registerError;
 
-  // ——— Estado para estadísticas ———
   bool isFetchingStats = false;
   String? statsError;
   List<ActividadFisicaStat> statsData = [];
 
-  // ——— Estado para podómetro ———
   int _pasos = 0;
   double _distancia = 0.0;
   late StreamSubscription<StepCount> _subscription;
@@ -56,10 +71,8 @@ class ActividadFisicaProvider extends ChangeNotifier {
   void _onStepCount(StepCount event) {
     debugPrint("Pasos detectados: ${event.steps}");
     if (_pasosIniciales < 0) _pasosIniciales = event.steps;
-
     _pasos = event.steps - _pasosIniciales;
     _distancia = (_pasos * _stepLengthMeters / 1000).toDouble();
-
     notifyListeners(); 
   }
 
@@ -68,12 +81,12 @@ class ActividadFisicaProvider extends ChangeNotifier {
   }
 
   void iniciarContador() {
-     try {
-    _pasosIniciales = -1; // Reinicia las bases
-    _subscription = Pedometer.stepCountStream.listen(
-      _onStepCount,
-      onError: _onStepCountError,
-    );
+    try {
+      _pasosIniciales = -1;
+      _subscription = Pedometer.stepCountStream.listen(
+        _onStepCount,
+        onError: _onStepCountError,
+      );
     } catch (e) {
       debugPrint("Error al iniciar podómetro: $e");
     }
@@ -99,7 +112,6 @@ class ActividadFisicaProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  // ——— Métodos para el backend ———
   Future<void> guardarActividad(int idHabito) async {
     await registrarActividad(
       usuarioId: idHabito,
@@ -109,7 +121,6 @@ class ActividadFisicaProvider extends ChangeNotifier {
     );
   }
 
-  /// Registrar actividad física (POST /registrar)
   Future<void> registrarActividad({
     required int usuarioId,
     required int pasos,
@@ -149,7 +160,7 @@ class ActividadFisicaProvider extends ChangeNotifier {
     }
   }
 
-  /// Obtener estadísticas mensuales (POST /estadisticas)
+  /// Obtiene las estadísticas de actividad física del usuario 
   Future<void> obtenerEstadisticas({
     required int usuarioId,
     required int mes,
@@ -157,7 +168,6 @@ class ActividadFisicaProvider extends ChangeNotifier {
   }) async {
     isFetchingStats = true;
     statsError = null;
-    statsData = [];
     notifyListeners();
 
     final url = Uri.parse('$_baseUrl/estadisticas');
@@ -175,15 +185,28 @@ class ActividadFisicaProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body)['data'] as List;
-        statsData = data
-            .map((item) => ActividadFisicaStat.fromJson(item))
-            .toList();
+        final decoded = jsonDecode(response.body);
+        if (decoded['data'] is List) {
+          final data = decoded['data'] as List;
+          print("✅ Datos recibidos: ${data.length} registros");
+          
+          // Procesar y ordenar los datos por fecha
+          statsData = data.map((item) => ActividadFisicaStat.fromJson(item)).toList()
+            ..sort((a, b) => a.fecha.compareTo(b.fecha));
+          
+          print("📊 Datos procesados: ${statsData.length} días");
+        } else {
+          statsError = 'Formato de datos incorrecto';
+          statsData = [];
+        }
       } else {
         statsError = 'Error ${response.statusCode}: ${response.body}';
+        statsData = [];
       }
     } catch (e) {
-      statsError = e.toString();
+      statsError = 'Error al obtener estadísticas: $e';
+      statsData = [];
+      print("❌ Error: $e");
     } finally {
       isFetchingStats = false;
       notifyListeners();

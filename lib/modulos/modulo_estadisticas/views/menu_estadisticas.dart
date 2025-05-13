@@ -90,7 +90,7 @@ class MenuEstadisticas extends StatelessWidget {
                   CustomMenuButton(
                     text: 'Actividad física',
                     onPressed: () {
-                      Navigator.pushNamed(context, '/comparacion_resultados');
+                      Navigator.pushNamed(context, '/estadisticas_actividad');
                     },
                   ),
                 ],

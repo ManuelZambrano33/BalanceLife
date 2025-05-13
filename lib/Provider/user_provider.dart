@@ -116,15 +116,25 @@ class UserProvider {
         if (data['success']) {
           final tokenSesion = data['token'];
           await AuthService().writeSessionToken(tokenSesion);
-          print("ESTE ES EL TOKEN DE SESION GUARDADO POR REGISTRO: $tokenSesion");
+          int id = data['id'] ?? -1;
 
-          final userData = data['data'];
-          if (userData != null) {
-            return await _processUserData(userData);  // Usamos el método separado
+          Map<String, dynamic> userData = {
+            "nombre": nombre,
+            "email": email,
+            "birthdate": fechaNacimiento,  
+            "id_usuario": id, 
+          };
+          bool result = await _processUserData(userData);
+
+          print("Este es el id gurdado por el registro: $id");
+          if (result) {
+            print("Datos del usuario procesados correctamente.");
+            return true;
           } else {
-            print("Error: Los datos del usuario son nulos.");
+            print("Error al procesar los datos del usuario.");
             return false;
           }
+          
         } else {
           print("Error: Respuesta del registro no exitosa. ${data['message']}");
           return false;
