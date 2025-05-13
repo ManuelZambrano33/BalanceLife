@@ -60,6 +60,7 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -114,7 +115,7 @@ class _WaterTrackerViewState extends State<WaterTrackerView> {
                 controller: _cantidadCtrl,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  labelText: 'Cantidad (ml)',
+                  labelText: 'Cantidad (Vasos)',
                   filled: true,
                   fillColor: const Color(0xFFEDEDED),
                   contentPadding:

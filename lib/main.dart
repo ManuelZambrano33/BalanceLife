@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:front_balancelife/Provider/actividad_provider.dart';
 import 'package:front_balancelife/Provider/alimentacion_provider.dart';
-import 'package:front_balancelife/Provider/hidratacion_provider.dart';
 import 'package:front_balancelife/Provider/sueno_provider.dart';
 import 'package:front_balancelife/firebase_options.dart';
 import 'package:front_balancelife/modulos/modulo_actividad/views/actividad_fisica_view.dart';
@@ -15,6 +14,7 @@ import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmo
 import 'package:front_balancelife/modulos/modulo_config/repo/config/settings_repository.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
+import 'package:front_balancelife/modulos/modulo_estadisticas/views/pages/estadisticas_actividad.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/pages/estadisticas_hidratacion.dart';
 import 'package:front_balancelife/modulos/modulo_logros/view/logro_page.dart';
 import 'package:front_balancelife/modulos/modulo_minijuegos/repo/user_repository.dart';
@@ -38,7 +38,6 @@ import 'package:front_balancelife/modulos/modulo_habito/view/add_habit_view.dart
 // Importamos el ThemeViewModel y ThemeRepository
 import 'package:front_balancelife/modulos/modulo_config/repo/config/theme_repository.dart';
 import 'package:front_balancelife/modulos/modulo_config/viewmodel/config/theme_viewmodel.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -78,6 +77,7 @@ void main() async {
         // ChangeNotifierProvider(create: (_) => HidratacionProvider()),
         ChangeNotifierProvider(create: (context) => ActividadFisicaProvider()),
         ChangeNotifierProvider(create: (context) => SleepProvider()),
+
 
         ChangeNotifierProvider(create: (context) => RegisterViewModel()),
         ChangeNotifierProvider(create: (context) => FruitGameViewModel(UserRepository(), 1)),
@@ -119,6 +119,7 @@ class MyApp extends StatelessWidget {
         '/healthy_food': (context) => const FoodEntryView(),
         '/avatar': (context) => AvatarView(),
         '/estadisticas_hidratacion': (context) => EstadisticasHidratacion(),
+        '/estadisticas_actividad':(context) => const GraficaActividadPage(),
       },
     );
   }

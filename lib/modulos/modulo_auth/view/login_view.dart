@@ -156,81 +156,83 @@ class _LoginViewState extends State<LoginView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Image.asset('assets/superior_izquierda.png', width: 230),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Image.asset('assets/inferior_derecha.png', width: 230),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'INICIAR SESIÓN',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 215, 73, 254),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    resizeToAvoidBottomInset: false,  // Evita que la pantalla se mueva cuando aparece el teclado
+    body: Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          child: Image.asset('assets/superior_izquierda.png', width: 230),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: Image.asset('assets/inferior_derecha.png', width: 230),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Center(
+            child: SingleChildScrollView(  // Permite que el contenido se desplace si es necesario
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'INICIAR SESIÓN',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 215, 73, 254),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Correo electrónico',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      prefixIcon: const Icon(Icons.email),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Contraseña',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      prefixIcon: const Icon(Icons.lock),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 138, 43, 155),
+                      padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Correo electrónico',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        prefixIcon: const Icon(Icons.email),
-                      ),
+                    onPressed: _handleLogin,
+                    child: const Text(
+                      'Iniciar sesión',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    const SizedBox(height: 20),
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Contraseña',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        prefixIcon: const Icon(Icons.lock),
-                      ),
+                  ),
+                  const SizedBox(height: 10),
+                  if (_showBiometricButton)
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.fingerprint),
+                      label: const Text('Usar huella digital'),
+                      onPressed: _handleBiometricLogin,
                     ),
-                    const SizedBox(height: 30),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 138, 43, 155),
-                        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      onPressed: _handleLogin,
-                      child: const Text(
-                        'Iniciar sesión',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    if (_showBiometricButton)
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.fingerprint),
-                        label: const Text('Usar huella digital'),
-                        onPressed: _handleBiometricLogin,
-                      ),
-                    TextButton(
+                   TextButton(
                       onPressed: () => Navigator.pushNamed(context, '/register'),
                       child: const Text(
                         '¿No tienes cuenta? Regístrate aquí',
@@ -240,13 +242,14 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 }

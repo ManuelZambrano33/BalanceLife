@@ -17,7 +17,7 @@ class SleepStat {
 }
 
 class SleepProvider extends ChangeNotifier {
-  final String _baseUrl = 'http://192.168.1.6:3000/api/ModuloHabitoSueno';
+  final String _baseUrl = 'http://192.168.1.7:3000/api/ModuloHabitoSueno';
 
   // Estado registro
   bool isRegistering = false;

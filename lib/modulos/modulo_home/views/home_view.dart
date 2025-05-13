@@ -20,7 +20,10 @@ class HomeView extends StatelessWidget {
     final avatarVM = Provider.of<AvatarViewModel>(context);
     
     return Scaffold(
+      backgroundColor: Colors.white,
+
       body: Stack(
+        
         children: [
           // Nubes de fondo
           Positioned(
