@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:front_balancelife/Provider/user_provider.dart';
 import 'package:front_balancelife/modulos/modulo_auth/view/biometric_confirmation_dialog%20copy.dart';
 import 'package:front_balancelife/services/auth_service.dart';
-import 'package:local_auth/local_auth.dart';
-import 'biometric_confirmation_dialog.dart'; // Asegúrate de tener este archivo
+import 'biometric_confirmation_dialog.dart'; 
+
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -16,7 +15,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _storage = FlutterSecureStorage();
   bool _showBiometricButton = false;
 
   @override
@@ -27,7 +25,6 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> _checkBiometricStatus() async {
     final token = await AuthService().readToken();
-    print("Token encontrado: $token");
     if (token == null) {
       setState(() => _showBiometricButton = false);
     } else {
@@ -48,7 +45,6 @@ class _LoginViewState extends State<LoginView> {
     print("Login success: $success");
     if (success) {
       final longToken = await AuthService().readToken();
-      print("Long Token: $longToken");
       if (longToken == null) {
         _showEnableBiometricDialog(email);
       } else {
@@ -97,7 +93,6 @@ class _LoginViewState extends State<LoginView> {
         password: _passwordController.text,
       ),
     );
-    print("Validación de credenciales PARA GENERAR EL LONG: $isValid");
     if (isValid ?? false) {
       await _enableBiometricAuthentication(email);
     }
@@ -106,7 +101,6 @@ class _LoginViewState extends State<LoginView> {
   Future<void> _enableBiometricAuthentication(String email) async {
     try {
       final success = await UserProvider.habilitarHuella(email);
-      print("SI LLEGA A Habilitar huella success???: $success");
       if (success) {
         setState(() => _showBiometricButton = true);
         _navigateToHome();
@@ -130,7 +124,10 @@ class _LoginViewState extends State<LoginView> {
         final newToken = await UserProvider.verifyLongToken(longToken);
         if (newToken != null) {
           _navigateToHome();
+        }else {
+          _showSnackbar('Error de autenticación');
         }
+
       }
     } catch (e) {
       _showSnackbar('Error de autenticación: $e');
@@ -138,7 +135,6 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void _navigateToHome() {
-    print("Navegando a la vista de inicio");
     Navigator.pushReplacementNamed(context, '/homeView');
   }
 

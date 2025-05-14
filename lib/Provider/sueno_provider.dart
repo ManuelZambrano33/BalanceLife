@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/Provider/general_endpoint.dart';
 import 'package:http/http.dart' as http;
 
 class SleepStat {
@@ -17,7 +18,8 @@ class SleepStat {
 }
 
 class SleepProvider extends ChangeNotifier {
-  final String _baseUrl = 'http://192.168.1.7:3000/api/ModuloHabitoSueno';
+
+  final _baseUrl = GeneralEndpoint.getEndpoint('ModuloHabitoSueno');
 
   // Estado registro
   bool isRegistering = false;

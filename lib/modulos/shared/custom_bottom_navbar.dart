@@ -3,6 +3,7 @@ import 'package:front_balancelife/modulos/modulo_avatar/view/avatar_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/home_view.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
 import 'package:front_balancelife/modulos/modulo_home/views/home_view.dart';
+import 'package:front_balancelife/modulos/modulo_misiones/view/misiones_view.dart';
 
 class NavBar extends StatelessWidget {
   final int currentPageIndex;
@@ -23,7 +24,7 @@ class NavBar extends StatelessWidget {
           page = MenuEstadisticas();
           break;
         case 2:
-          page = AvatarView();
+          page = MisionesView();
         break;
         case 3:
           page = HomeConfigView();
@@ -46,7 +47,7 @@ class NavBar extends StatelessWidget {
       destinations: const [
         NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
         NavigationDestination(icon: Icon(Icons.analytics), label: 'Estadisticas'),
-        NavigationDestination(icon: Icon(Icons.create), label: 'Avatar'),
+        NavigationDestination(icon: Icon(Icons.create), label: 'Misiones'),
         NavigationDestination(icon: Icon(Icons.settings), label: 'Configuracion'),
 
       ],

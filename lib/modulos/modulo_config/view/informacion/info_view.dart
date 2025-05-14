@@ -139,19 +139,19 @@ class InfoView extends StatelessWidget {
                 );
               },
             ),
-            _buildInfoButton(
-              title: 'Tutorial',
-              subtitle: 'Descube como usar nuestra app',
-              imagePath: 'assets/14.png',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Tuto(), 
-                  ),
-                );
-              },
-            ),
+            // _buildInfoButton(
+            //   title: 'Tutorial',
+            //   subtitle: 'Descube como usar nuestra app',
+            //   imagePath: 'assets/14.png',
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => Tuto(), 
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

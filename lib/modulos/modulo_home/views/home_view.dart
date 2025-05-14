@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:front_balancelife/modulos/modulo_avatar/view/avatar_view.dart';
 import 'package:front_balancelife/modulos/modulo_avatar/view_model/avatar_viewmodel.dart';
 import 'package:front_balancelife/modulos/shared/custom_bottom_navbar.dart';
 import 'package:front_balancelife/services/UserServiceModel.dart';
@@ -57,7 +58,15 @@ class HomeView extends StatelessWidget {
                     Row(
                       children: [
                         // Avatar pequeño dentro de la bolita
-                        CircleAvatar(
+                                            
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AvatarView()), // Reemplaza con tu widget de destino
+                        );
+                      },
+                      child: CircleAvatar(
                           radius: 25, // Ajusta el tamaño del avatar en la bolita
                           backgroundColor: Colors.transparent, // Fondo transparente
                           child: ClipOval(
@@ -77,6 +86,7 @@ class HomeView extends StatelessWidget {
                             ),
                           ),
                         ),
+                      ),
                         const SizedBox(width: 10),
                         Text(
                           "¡Hola, ${UserServiceModel.nombre}!",

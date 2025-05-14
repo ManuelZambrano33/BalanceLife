@@ -10,6 +10,8 @@ class UserProvider {
 
   // Método para procesar los datos del usuario
   static Future<bool> _processUserData(Map<String, dynamic> userData) async {
+    
+
     try {
       DateTime birthDate;
       try {
@@ -19,11 +21,17 @@ class UserProvider {
         birthDate = DateTime.now();
       }
 
+
       // Asignar los valores al UserServiceModel
       UserServiceModel.id_usuario = userData["id_usuario"] ?? -1;
       UserServiceModel.nombre = userData["nombre"] ?? "Sin nombre";
       UserServiceModel.email = userData["email"] ?? "email@desconocido.com";
       UserServiceModel.birthday = birthDate;
+      UserServiceModel.meta_hidratacion = userData["meta_hidratacion"] ?? "0";
+      UserServiceModel.meta_deporte = userData["meta_deporte"] ?? "0";
+      UserServiceModel.meta_sueno = userData["meta_sueno"] ?? "0.0";
+      UserServiceModel.meta_alimentacion = userData["meta_alimentacion"] ?? "0";
+      
 
       // Guardamos los datos en SharedPreferences
       final saveResult = await SharedPreferencesService().saveUserData(
@@ -73,6 +81,7 @@ class UserProvider {
           // Procesamos los datos del usuario
           var userData = data['data'];
           if (userData != null) {
+            print("Datos del usuario: $userData");
             return await _processUserData(userData);  // Usamos el método separado
           } else {
             print("Error: Los datos del usuario son nulos.");
@@ -202,6 +211,7 @@ class UserProvider {
         body: json.encode(body),
       );
 
+      print("ESTE ES EL TOKEN LARGO QUE SE ENVIA: $longToken");
       Map<String, dynamic> data = json.decode(response.body);
       if (response.statusCode == 200 && data['tokenSesion'] != null) {
         final String tokenSesion = data['tokenSesion'];
@@ -225,4 +235,39 @@ class UserProvider {
       return null;
     }
   }
+
+   static Future<bool> actualizarMetas() async {
+    String url = GeneralEndpoint.getEndpoint('$module/actualizarMetas');
+
+    Map<String, dynamic> body = {
+      "id_usuario": UserServiceModel.id_usuario,
+      "meta_hidratacion": UserServiceModel.meta_hidratacion,
+      "meta_deporte": UserServiceModel.meta_deporte,
+      "meta_sueno": UserServiceModel.meta_sueno,
+      "meta_alimentacion": UserServiceModel.meta_alimentacion,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(body),
+      );
+
+      Map<String, dynamic> data = json.decode(response.body);
+      if (response.statusCode == 200 && data['success']) {
+        return true;
+      } else {
+        print("Error en la solicitud: ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      print("Error al verificar el token: $e");
+      return false;
+    }
+  }
+
+
 }

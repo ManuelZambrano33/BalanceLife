@@ -73,17 +73,17 @@ class ConfigView extends StatelessWidget {
                       );
                     }),
 
-            _buildButton('Cambiar Tema (Claro/Oscuro)', Icons.brightness_6, () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChangeNotifierProvider(
-                    create: (_) => ThemeViewModel(ThemeRepository()),
-                    child: const ThemeView(),
-                  ),
-                ),
-              );
-            }),
+            // _buildButton('Cambiar Tema (Claro/Oscuro)', Icons.brightness_6, () {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => ChangeNotifierProvider(
+            //         create: (_) => ThemeViewModel(ThemeRepository()),
+            //         child: const ThemeView(),
+            //       ),
+            //     ),
+            //   );
+            // }),
 
             _buildButton('Eliminar Cuenta', Icons.delete, () {
                       Navigator.push(

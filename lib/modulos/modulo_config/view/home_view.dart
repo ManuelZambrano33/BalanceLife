@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/modulos/modulo_avatar/view/avatar_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/acerca_de/acerca_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/config/config_view.dart';
 import 'package:front_balancelife/modulos/modulo_config/view/informacion/info_view.dart';
@@ -24,7 +25,7 @@ class HomeConfigView extends StatelessWidget {
         child: Container(
           height: 190,
           decoration: const BoxDecoration(
-            color: Color(0xFF4E5567),
+            color: Color.fromARGB(255, 100, 108, 127),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(40),
               bottomRight: Radius.circular(40),
@@ -69,6 +70,14 @@ class HomeConfigView extends StatelessWidget {
                     Row(
                       children: [
                         // Cambié la posición del avatar aquí
+                      GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AvatarView()), // Reemplaza con tu widget de destino
+                        );
+                      },
+                      child:
                         Container(
                           width: 60,
                           height: 72,
@@ -86,6 +95,7 @@ class HomeConfigView extends StatelessWidget {
                                   width: 60, height: 72),
                             ],
                           ),
+                        ),
                         ),
                         const SizedBox(width: 16),
                         Column(
@@ -114,7 +124,7 @@ class HomeConfigView extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => const ConfigView()),
                       );
                     }),
-                    _buildButton('Acerca de', Icons.help, () {
+                    _buildButton('Acerca de la App', Icons.help, () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const AboutView()),
@@ -129,9 +139,6 @@ class HomeConfigView extends StatelessWidget {
                     const SizedBox(height: 330),
                     ElevatedButton(
                       onPressed: () async{
-                        print(
-                          "Cerrando sesión y eliminando datos del usuario",
-                        );
                         await SharedPreferencesService().clearUserData();
                         await AuthService().deleteSessionToken();
                         Navigator.pushReplacementNamed(context, '/');
