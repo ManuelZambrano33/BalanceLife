@@ -185,7 +185,7 @@ class _EstadisticasHidratacionState extends State<EstadisticasHidratacion> {
     return Column(
       children: [
         const Text(
-        'Progreso diario relativo a la meta',
+        'Progreso Diario Relativo a la Meta',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -346,7 +346,11 @@ class _EstadisticasHidratacionState extends State<EstadisticasHidratacion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Estadísticas de Hidratación")),
+      appBar: AppBar(
+        title: const Text("Estadísticas de Hidratación"),
+        backgroundColor: const Color.fromARGB(255, 12, 59, 97),
+        foregroundColor: Colors.white,
+      ),
       body: _cargando
           ? const Center(child: CircularProgressIndicator())
           : Padding(
@@ -356,9 +360,9 @@ class _EstadisticasHidratacionState extends State<EstadisticasHidratacion> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      _buildWeekSelector(),
                       _buildMonthSelector(),
                       _buildYearSelector(),
-                      _buildWeekSelector(),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -398,37 +402,73 @@ class _EstadisticasHidratacionState extends State<EstadisticasHidratacion> {
     );
   }
 
-  Widget _buildMonthSelector() => DropdownButton<int>(
-    value: selectedMonth,
-    items: monthNames.asMap().entries.map((e) => DropdownMenuItem(
-      value: e.key + 1,
-      child: Text(e.value),
-    )).toList(),
-    onChanged: (v) => setState(() {
-      selectedMonth = v!;
-      _cargarEstadisticas();
-    }),
-  );
+  Widget _buildMonthSelector() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: DropdownButton<int>(
+        value: selectedMonth,
+        underline: Container(),
+        items: monthNames.asMap().entries.map((e) => DropdownMenuItem(
+          value: e.key + 1,
+          child: Text(e.value),
+        )).toList(),
+        onChanged: (v) => setState(() {
+          selectedMonth = v!;
+          _cargarEstadisticas();
+        }),
+      ),
+    );
+  }
 
-  Widget _buildYearSelector() => DropdownButton<int>(
-    value: selectedYear,
-    items: List.generate(5, (i) => DateTime.now().year - 2 + i)
-        .map((y) => DropdownMenuItem(value: y, child: Text('$y')))
-        .toList(),
-    onChanged: (v) => setState(() {
-      selectedYear = v!;
-      _cargarEstadisticas();
-    }),
-  );
+  Widget _buildYearSelector() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: DropdownButton<int>(
+        value: selectedYear,
+        underline: Container(),
+        items: List.generate(5, (i) => DateTime.now().year - 2 + i)
+            .map((y) => DropdownMenuItem(
+                  value: y,
+                  child: Text('$y'),
+                ))
+            .toList(),
+        onChanged: (v) => setState(() {
+          selectedYear = v!;
+          _cargarEstadisticas();
+        }),
+      ),
+    );
+  }
 
-  Widget _buildWeekSelector() => DropdownButton<int>(
-    value: selectedWeek,
-    items: List.generate(5, (i) => i + 1)
-        .map((w) => DropdownMenuItem(value: w, child: Text('Semana $w')))
-        .toList(),
-    onChanged: (v) => setState(() {
-      selectedWeek = v!;
-      _cargarEstadisticas();
-    }),
-  );
+  Widget _buildWeekSelector() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: DropdownButton<int>(
+        value: selectedWeek,
+        underline: Container(),
+        items: List.generate(5, (i) => i + 1)
+            .map((w) => DropdownMenuItem(
+                  value: w,
+                  child: Text('Semana $w'),
+                ))
+            .toList(),
+        onChanged: (v) => setState(() {
+          selectedWeek = v!;
+          _cargarEstadisticas();
+        }),
+      ),
+    );
+  }
 }
