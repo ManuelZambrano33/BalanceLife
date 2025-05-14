@@ -18,7 +18,7 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
   int selectedYear = DateTime.now().year;
   int selectedWeek = 1;
   ActividadFisicaStat? selectedDayStat;
-  int metaDiariaPasos = 10000; // Valor por defecto
+  int metaDiariaPasos = 10000; 
 
   final List<String> monthNames = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',

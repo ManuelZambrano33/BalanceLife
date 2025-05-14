@@ -56,7 +56,7 @@ class AboutView extends StatelessWidget {
                   children: const [
                     _AboutSection(
                       title: 'Nombre de la App',
-                      content: 'Balance Life',
+                      content: 'HabitOS',
                     ),
                     _AboutSection(
                       title: 'Versión',
@@ -65,16 +65,16 @@ class AboutView extends StatelessWidget {
                     _AboutSection(
                       title: 'Descripción',
                       content:
-                          'Balance Life es una aplicación integral de bienestar que te ayuda a mejorar tu salud física y mental mediante el seguimiento del sueño, la hidratación, la actividad física y más. Además, incluye minijuegos, un avatar personalizable y estadísticas detalladas para monitorear tu progreso.',
+                          'HabitOS es una aplicación integral de bienestar que te ayuda a mejorar tu salud física y mental mediante el seguimiento del sueño, la hidratación, la actividad física y más. Además, incluye minijuegos, un avatar personalizable y estadísticas detalladas para monitorear tu progreso.',
                     ),
                     _AboutSection(
                       title: 'Objetivo',
                       content:
-                          'El objetivo de Balance Life es promover hábitos saludables y mantener el equilibrio entre cuerpo y mente, guiando al usuario en su camino hacia una vida más activa, saludable y consciente.',
+                          'El objetivo de la empresa Balance Life es promover hábitos saludables y mantener el equilibrio entre cuerpo y mente, guiando al usuario en su camino hacia una vida más activa, saludable y consciente.',
                     ),
                     _AboutSection(
                       title: 'Desarrollador',
-                      content: 'Equipo Balance Life',
+                      content: 'Balance Life',
                     ),
                     SizedBox(height: 30),
                   ],
