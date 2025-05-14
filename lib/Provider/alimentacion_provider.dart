@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/Provider/general_endpoint.dart';
 import 'package:front_balancelife/modulos/modulo_alimentacion/model/food_entry_model.dart';
 import 'package:http/http.dart' as http;
 
 class AlimentacionProvider extends ChangeNotifier {
-  final String _baseUrl = 'http://192.168.1.7:3000/api/ModuloHabitoAlimentacion';
+  
+  final String _baseUrl = GeneralEndpoint.getEndpoint('ModuloHabitoAlimentacion');
+
 
   // Estado para registrar
   bool isRegistering = false;

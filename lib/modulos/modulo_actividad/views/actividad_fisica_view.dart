@@ -84,8 +84,8 @@ class _ActividadFisicaViewState extends State<ActividadFisicaView> {
                 const SizedBox(height: 6),
                 Center(
                   child: Text(
-                    '💪 4K pasos = ¡Meta inicial! 💪'
-                      '\n🎯 10K = ¡Súper meta! 🎯'
+                    ' 4K pasos = ¡Meta inicial! '
+                      '\n 10K = ¡Súper meta! '
                       '\n🌿¡Cada paso es una huella hacia tu bienestar! 🌿',
                     style: TextStyle(fontSize: 16, color: Colors.black87),
                     textAlign: TextAlign.center,

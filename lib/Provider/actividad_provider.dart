@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:front_balancelife/Provider/general_endpoint.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedometer/pedometer.dart';
 
@@ -43,7 +44,10 @@ class ActividadFisicaStat {
 }
 
 class ActividadFisicaProvider extends ChangeNotifier {
-  final String _baseUrl = 'http://192.168.1.7:3000/api/ModuloHabitoActividadFisica';
+  
+  String _baseUrl = GeneralEndpoint.getEndpoint('ModuloHabitoActividadFisica');
+
+ 
 
   bool isRegistering = false;
   bool registerSuccess = false;

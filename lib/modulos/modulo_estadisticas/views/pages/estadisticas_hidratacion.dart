@@ -24,8 +24,6 @@ class _EstadisticasHidratacionState extends State<EstadisticasHidratacion> {
     setState(() => _cargando = true);
 
     try {
-
-
       final stats = await HidratacionProvider.obtenerEstadisticas(
         usuarioId: UserServiceModel.id_usuario!,
         date: DateTime.now(),
@@ -59,32 +57,46 @@ class _EstadisticasHidratacionState extends State<EstadisticasHidratacion> {
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 2,
-                        child: BarChart(
-                          BarChartData(
-                            alignment: BarChartAlignment.spaceAround,
-                            maxY: _getMaxY(_estadisticas),
-                            barTouchData: BarTouchData(enabled: true),
-                            gridData: FlGridData(show: false), // 👈 Quitar el grid
-                            borderData: FlBorderData(show: false), // 👈 Quitar el borde
-                            titlesData: FlTitlesData(
-                              leftTitles: AxisTitles(
-                                sideTitles: SideTitles(showTitles: true, interval: 500),
-                              ),
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  getTitlesWidget: (value, _) {
-                                    return Text(
-                                      value.toInt().toString(),
-                                      style: const TextStyle(fontSize: 10),
-                                    );
-                                  },
+                      Card(
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height / 2,
+                            child: LineChart(
+                              LineChartData(
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    spots: _generarLineChartData(),
+                                    isCurved: true,
+                                    color: Colors.blueAccent,
+                                    belowBarData: BarAreaData(show: false),
+                                    dotData: FlDotData(show: false),
+                                  ),
+                                ],
+                                gridData: FlGridData(show: false),
+                                titlesData: FlTitlesData(
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(showTitles: true, interval: 500),
+                                  ),
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      getTitlesWidget: (value, _) {
+                                        return Text(
+                                          value.toInt().toString(),
+                                          style: const TextStyle(fontSize: 10),
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
+                                borderData: FlBorderData(show: false),
                               ),
                             ),
-                            barGroups: _generarBarGroupsDelMes(),
                           ),
                         ),
                       ),
@@ -94,32 +106,11 @@ class _EstadisticasHidratacionState extends State<EstadisticasHidratacion> {
     );
   }
 
-  double _getMaxY(List<HidratacionStat> datos) {
-    final max = datos.map((e) => e.cantidad).fold(0, (prev, next) => next > prev ? next : prev);
-    return max < 100 ? 100 : (max + 500).toDouble(); // Ajuste visual
+  // Generar puntos de la gráfica
+  List<FlSpot> _generarLineChartData() {
+    return _estadisticas.map((stat) {
+      // Generamos un FlSpot (día, cantidad de agua tomada)
+      return FlSpot(stat.fecha.day.toDouble(), stat.cantidad.toDouble());
+    }).toList();
   }
-
-  List<BarChartGroupData> _generarBarGroupsDelMes() {
-  final now = DateTime.now();
-  final totalDias = DateUtils.getDaysInMonth(now.year, now.month);
-
-  // Mapa rápido para buscar cantidades por día
-  final mapaDatos = {for (var stat in _estadisticas) stat.fecha.day: stat.cantidad};
-
-  return List.generate(totalDias, (index) {
-    final dia = index + 1;
-    final cantidad = mapaDatos[dia] ?? 0;
-
-    return BarChartGroupData(
-      x: dia,
-      barRods: [
-        BarChartRodData(
-          toY: cantidad.toDouble(),
-          color: Colors.blueAccent,
-        )
-      ],
-    );
-  });
-}
-
 }
