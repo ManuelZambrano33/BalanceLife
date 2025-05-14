@@ -69,7 +69,7 @@ class MenuEstadisticas extends StatelessWidget {
                   CustomMenuButton(
                     text: 'Sueño',
                     onPressed: () {
-                      Navigator.pushNamed(context, '/estastisticas_sueno');
+                      Navigator.pushNamed(context, '/estadisticas_sueno');
                     },
                   ),
                   const SizedBox(height: 16),
@@ -83,7 +83,7 @@ class MenuEstadisticas extends StatelessWidget {
                   CustomMenuButton(
                     text: 'Alimentación',
                     onPressed: () {
-                      Navigator.pushNamed(context, '/historial_habitos');
+                      Navigator.pushNamed(context, '/estadisticas_alimentacion');
                     },
                   ),
                   const SizedBox(height: 16),

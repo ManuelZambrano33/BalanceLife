@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-import 'package:front_balancelife/Provider/actividad_provider.dart';
+import 'package:front_balancelife/Provider/sueno_provider.dart';
 import 'package:front_balancelife/services/UserServiceModel.dart';
 
-class GraficaActividadPage extends StatefulWidget {
-  const GraficaActividadPage({Key? key}) : super(key: key);
+class EstadisticasSuenoPage extends StatefulWidget {
+  const EstadisticasSuenoPage({Key? key}) : super(key: key);
 
   @override
-  State<GraficaActividadPage> createState() => _GraficaActividadPageState();
+  State<EstadisticasSuenoPage> createState() => _EstadisticasSuenoPageState();
 }
 
-class _GraficaActividadPageState extends State<GraficaActividadPage> {
+class _EstadisticasSuenoPageState extends State<EstadisticasSuenoPage> {
   int selectedMonth = DateTime.now().month;
   int selectedYear = DateTime.now().year;
   int selectedWeek = 1;
-  ActividadFisicaStat? selectedDayStat;
-  int metaDiariaPasos = 10000; 
+  SleepStat? selectedDayStat;
+  double metaDiariaSueno = 8.0; // Valor por defecto (8 horas)
 
   final List<String> monthNames = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -28,53 +28,80 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
   @override
   void initState() {
     super.initState();
+    print('🔄 initState llamado');
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      print('📌 Post-frame callback ejecutándose');
       _loadUserMeta();
       _loadData();
     });
   }
 
   Future<void> _loadUserMeta() async {
+    print('🔍 Iniciando _loadUserMeta()');
     try {
-      final meta = UserServiceModel.meta_deporte;
+      print('📊 UserServiceModel.meta_sueno ANTES: ${UserServiceModel.meta_sueno}');
+      final meta = UserServiceModel.meta_sueno ?? '8.0';
+      print('📊 UserServiceModel.meta_sueno DESPUÉS: $meta');
+      
+      final parsedMeta = double.tryParse(meta);
+      print('🔢 Valor parseado: $parsedMeta');
+      
       setState(() {
-        metaDiariaPasos = meta != null && meta.isNotEmpty ? int.parse(meta) : 10000;
+        metaDiariaSueno = parsedMeta ?? 8.0;
+        print('✅ Meta diaria establecida: $metaDiariaSueno');
       });
     } catch (e) {
-      print("Error al cargar meta deportiva: $e");
+      print('❌ Error en _loadUserMeta: $e');
+      print('🔄 Estableciendo valor por defecto (8.0)');
       setState(() {
-        metaDiariaPasos = 10000;
+        metaDiariaSueno = 8.0;
       });
     }
   }
 
   void _loadData() {
-    print("🔍 Cargando datos para $selectedMonth/$selectedYear...");
-    Provider.of<ActividadFisicaProvider>(context, listen: false)
-        .obtenerEstadisticas(
-      usuarioId: UserServiceModel.id_usuario ?? 1,
-      mes: selectedMonth,
-      anio: selectedYear,
-    ).then((_) {
-      if (mounted) {
-        final stats = Provider.of<ActividadFisicaProvider>(context, listen: false).statsData;
-        setState(() {
-          // No seleccionamos ningún día por defecto al cargar
-          selectedDayStat = null;
-        });
+    print('\n📡 Iniciando _loadData()');
+    try {
+      final usuarioId = UserServiceModel.id_usuario;
+      print('👤 ID Usuario: $usuarioId');
+      
+      if (usuarioId == null) {
+        print('⚠️ ATENCIÓN: UserServiceModel.id_usuario es NULL');
       }
-    });
+      
+      print("🔍 Obteniendo estadísticas para $selectedMonth/$selectedYear...");
+      
+      Provider.of<SleepProvider>(context, listen: false)
+          .obtenerEstadisticas(
+            usuarioId: usuarioId ?? 1, // Valor por defecto 1 si es null
+            mes: selectedMonth,
+            anio: selectedYear,
+          )
+          .then((_) {
+            print('📊 Datos obtenidos con éxito');
+            if (mounted) {
+              final stats = Provider.of<SleepProvider>(context, listen: false).stats;
+              print('📈 Cantidad de registros obtenidos: ${stats.length}');
+              setState(() {
+                selectedDayStat = null;
+              });
+            }
+          })
+          .catchError((error) {
+            print('❌ Error al obtener estadísticas: $error');
+          });
+    } catch (e) {
+      print('‼️ Error crítico en _loadData: $e');
+    }
   }
 
-  List<ActividadFisicaStat> _getWeekData(List<ActividadFisicaStat> allStats) {
+  List<SleepStat> _getWeekData(List<SleepStat> allStats) {
     final firstDayOfMonth = DateTime(selectedYear, selectedMonth, 1);
-    
-    // Asumimos meses de exactamente 30 días
-    final lastDayOfMonth = DateTime(selectedYear, selectedMonth, 30);
+    final lastDayOfMonth = DateTime(selectedYear, selectedMonth + 1, 0);
     
     final weekStart = firstDayOfMonth.add(Duration(days: (selectedWeek - 1) * 7));
     
-    List<ActividadFisicaStat> weekStats = [];
+    List<SleepStat> weekStats = [];
     for (int i = 0; i < 7; i++) {
       final currentDay = weekStart.add(Duration(days: i));
       if (currentDay.isAfter(lastDayOfMonth)) break;
@@ -82,10 +109,9 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
       final existingStat = allStats.firstWhere(
         (stat) => stat.fecha.day == currentDay.day && 
                   stat.fecha.month == currentDay.month,
-        orElse: () => ActividadFisicaStat(
+        orElse: () => SleepStat(
           fecha: currentDay,
-          pasos: 0,
-          kilometros: 0.0,
+          duracion: 0.0,
         ),
       );
       
@@ -95,7 +121,7 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
     return weekStats;
   }
 
-  Widget _buildWeekSelector() {
+  Widget _buildWeekSelector(int totalWeeks) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey[200],
@@ -127,12 +153,12 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
     );
   }
 
-  Widget _buildStepsChart(List<ActividadFisicaStat> allStats) {
+  Widget _buildSleepChart(List<SleepStat> allStats) {
     final weekStats = _getWeekData(allStats);
     
-    // Asegurar que maxPasos nunca sea cero
-    final maxPasos = max(metaDiariaPasos * 1.5, 1000).toDouble();
-    final horizontalInterval = max((maxPasos / 5), 1000).toDouble();
+    // Asegurar que maxY nunca sea cero
+    final maxY = max(metaDiariaSueno * 1.5, 10.0);
+    final horizontalInterval = max((maxY / 5), 2.0);
 
     return Card(
       elevation: 4,
@@ -142,7 +168,7 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
         child: Column(
           children: [
             Text(
-              "Pasos Diarios",
+              "Horas de Sueño Diarias",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -153,7 +179,7 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                   minX: 1,
                   maxX: 7,
                   minY: 0,
-                  maxY: maxPasos,
+                  maxY: maxY,
                   lineTouchData: LineTouchData(
                     touchCallback: (FlTouchEvent event, LineTouchResponse? response) {
                       if (response?.lineBarSpots != null && event is FlTapUpEvent) {
@@ -169,11 +195,11 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                       getTooltipItems: (List<LineBarSpot> spots) {
                         return spots.map((spot) {
                           final stat = weekStats[spot.spotIndex];
-                          final progress = stat.pasos > 0 ? (stat.pasos / metaDiariaPasos * 100).toStringAsFixed(0) : "0";
+                          final progress = stat.duracion > 0 ? (stat.duracion / metaDiariaSueno * 100).toStringAsFixed(0) : "0";
                           return LineTooltipItem(
                             'Día ${stat.fecha.day}\n'
-                            'Pasos: ${stat.pasos}\n'
-                            'Meta: $metaDiariaPasos pasos (${progress}%)',
+                            'Horas: ${stat.duracion.toStringAsFixed(1)}\n'
+                            'Meta: ${metaDiariaSueno.toStringAsFixed(1)}h (${progress}%)',
                             const TextStyle(color: Colors.white),
                           );
                         }).toList();
@@ -223,17 +249,17 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                   lineBarsData: [
                     LineChartBarData(
                       spots: List.generate(weekStats.length, (index) {
-                        return FlSpot((index + 1).toDouble(), weekStats[index].pasos.toDouble());
+                        return FlSpot((index + 1).toDouble(), weekStats[index].duracion);
                       }),
                       isCurved: true,
-                      color: const Color(0xFFE07A5F),
+                      color: const Color(0xFF5F84E0), // Azul para sueño
                       barWidth: 3,
                       dotData: FlDotData(
                         show: true,
                         getDotPainter: (spot, percent, barData, index) {
                           return FlDotCirclePainter(
                             radius: 5,
-                            color: const Color(0xFFE07A5F),
+                            color: const Color(0xFF5F84E0),
                             strokeWidth: 2,
                             strokeColor: Colors.white,
                           );
@@ -241,7 +267,7 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                       ),
                       belowBarData: BarAreaData(
                         show: true, 
-                        color: const Color(0xFFE07A5F).withOpacity(0.1),
+                        color: const Color(0xFF5F84E0).withOpacity(0.1),
                       ),
                     ),
                   ],
@@ -266,13 +292,13 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
       );
     }
 
-    final consumido = selectedDayStat!.pasos;
-    final progress = metaDiariaPasos > 0 ? consumido / metaDiariaPasos : 0;
+    final consumido = selectedDayStat!.duracion;
+    final progress = metaDiariaSueno > 0 ? consumido / metaDiariaSueno : 0;
 
     return Column(
       children: [
         const Text(
-          'Progreso Diario Relativo a la Meta',
+          'Progreso Diario',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -290,7 +316,7 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                   centerSpaceRadius: 50,
                   sections: [
                     PieChartSectionData(
-                      color:  Color(0xFFE07A5F),
+                      color: const Color(0xFF5F84E0),
                       value: progress.clamp(0, 1) * 100,
                       title: '${(progress * 100).toStringAsFixed(1)}%',
                       radius: 25,
@@ -313,14 +339,14 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '${consumido} pasos',
+                    '${consumido.toStringAsFixed(1)}h',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    'de $metaDiariaPasos',
+                    'de ${metaDiariaSueno.toStringAsFixed(1)}h',
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey[600],
@@ -347,8 +373,8 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
       );
     }
 
-    final progress = (selectedDayStat!.pasos / metaDiariaPasos * 100).toStringAsFixed(0);
-    final remaining = (metaDiariaPasos - selectedDayStat!.pasos).clamp(0, metaDiariaPasos);
+    final progress = (selectedDayStat!.duracion / metaDiariaSueno * 100).toStringAsFixed(0);
+    final remaining = (metaDiariaSueno - selectedDayStat!.duracion).clamp(0, metaDiariaSueno);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,24 +384,22 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Color(0xFFE07A5F),
+            color: Color(0xFF5F84E0),
           ),
         ),
         const SizedBox(height: 8),
         _buildInfoItem("Fecha", DateFormat('dd MMM yyyy').format(selectedDayStat!.fecha)),
         const SizedBox(height: 8),
-        _buildInfoItem("Pasos", "${selectedDayStat!.pasos}"),
+        _buildInfoItem("Horas de sueño", "${selectedDayStat!.duracion.toStringAsFixed(1)}"),
         const SizedBox(height: 8),
         _buildInfoItem("Progreso", "$progress%"),
         const SizedBox(height: 8),
         _buildInfoItem(
-          selectedDayStat!.pasos >= metaDiariaPasos ? "Superada por" : "Faltan",
-          selectedDayStat!.pasos >= metaDiariaPasos 
-              ? "${selectedDayStat!.pasos - metaDiariaPasos} pasos" 
-              : "$remaining pasos"
+          selectedDayStat!.duracion >= metaDiariaSueno ? "Superada por" : "Faltan",
+          selectedDayStat!.duracion >= metaDiariaSueno 
+              ? "${(selectedDayStat!.duracion - metaDiariaSueno).toStringAsFixed(1)}h" 
+              : "${remaining.toStringAsFixed(1)}h"
         ),
-        const SizedBox(height: 8),
-        _buildInfoItem("Kilómetros", selectedDayStat!.kilometros.toStringAsFixed(2)),
       ],
     );
   }
@@ -399,29 +423,28 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
     );
   }
 
- @override
+  @override
   Widget build(BuildContext context) {
-    final actividadProvider = Provider.of<ActividadFisicaProvider>(context);
-    final stats = actividadProvider.statsData;
+    final suenoProvider = Provider.of<SleepProvider>(context);
+    final stats = suenoProvider.stats;
+    final firstDayOfMonth = DateTime(selectedYear, selectedMonth, 1);
+    final lastDayOfMonth = DateTime(selectedYear, selectedMonth + 1, 0);
+    final totalWeeks = ((lastDayOfMonth.difference(firstDayOfMonth).inDays + firstDayOfMonth.weekday) / 7).ceil();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Estadísticas de Actividad Física"),
-        backgroundColor: const Color(0xFFE07A5F),
+        title: const Text("Estadísticas de Sueño"),
+        backgroundColor: const Color(0xFF5F84E0), // Azul para sueño
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Fila con los tres selectores
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Selector de semanas (1-4)
-                  _buildWeekSelector(),
-
-                  // Selector de mes
+                  _buildWeekSelector(totalWeeks),
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -452,8 +475,6 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                       },
                     ),
                   ),
-
-                  // Selector de año
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -486,22 +507,21 @@ class _GraficaActividadPageState extends State<GraficaActividadPage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 16),
               
-              if (actividadProvider.statsError != null)
+              if (suenoProvider.fetchError != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
-                    actividadProvider.statsError!,
+                    suenoProvider.fetchError!,
                     style: const TextStyle(color: Colors.red),
                   ),
                 ),
               
-              if (actividadProvider.isFetchingStats)
+              if (suenoProvider.isFetching)
                 const Center(child: CircularProgressIndicator())
               else if (stats.isNotEmpty) ...[
-                _buildStepsChart(stats),
+                _buildSleepChart(stats),
                 const SizedBox(height: 16),
                 Card(
                   elevation: 4,

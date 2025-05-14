@@ -16,6 +16,7 @@ import 'package:front_balancelife/modulos/modulo_config/viewmodel/viewmodel_home
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/menu_estadisticas.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/pages/estadisticas_actividad.dart';
 import 'package:front_balancelife/modulos/modulo_estadisticas/views/pages/estadisticas_hidratacion.dart';
+import 'package:front_balancelife/modulos/modulo_estadisticas/views/pages/estadisticas_sueno.dart';
 import 'package:front_balancelife/modulos/modulo_logros/view/logro_page.dart';
 import 'package:front_balancelife/modulos/modulo_minijuegos/repo/user_repository.dart';
 import 'package:front_balancelife/modulos/modulo_minijuegos/view/fruit_game_view.dart';
@@ -118,8 +119,10 @@ class MyApp extends StatelessWidget {
         '/exercise': (context) => const ActividadFisicaView(),
         '/healthy_food': (context) => const FoodEntryView(),
         '/avatar': (context) => AvatarView(),
+        '/estadisticas_sueno': (context) => const EstadisticasSuenoPage(),
         '/estadisticas_hidratacion': (context) => EstadisticasHidratacion(),
         '/estadisticas_actividad':(context) => const GraficaActividadPage(),
+        /// '/estadisticas_alimentacion': (context) => const EstadisticasAlimentacion(),
       },
     );
   }

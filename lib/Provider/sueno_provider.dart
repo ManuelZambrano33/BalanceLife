@@ -80,6 +80,10 @@ class SleepProvider extends ChangeNotifier {
     stats = [];
     notifyListeners();
 
+    print('🛠️ [SleepProvider] obtenerEstadisticas llamado con:');
+    print('👤 usuarioId: $usuarioId');
+    print('📅 mes: $mes, año: $anio');
+
     final url = Uri.parse('$_baseUrl/estadisticas');
     final body = {
       'usuario_id': usuarioId.toString(),
