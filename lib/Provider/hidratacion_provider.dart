@@ -24,10 +24,14 @@ class HidratacionProvider {
 
   static Future<List<HidratacionStat>> obtenerEstadisticas({
     required int usuarioId,
-    required DateTime date,
+    required int mes,
+    required int anio,
   }) async {
     final url = GeneralEndpoint.getEndpoint('$module/estadisticas');
 
+    final date = DateTime(anio, mes);
+
+    print("date enviada: $date");
     final body = jsonEncode({
       'id_usuario': usuarioId.toString(),
       'date': date.toIso8601String(),
