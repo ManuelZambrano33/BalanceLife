@@ -236,7 +236,7 @@ class UserProvider {
     }
   }
 
-   static Future<bool> actualizarMetas() async {
+  static Future<bool> actualizarMetas() async {
     String url = GeneralEndpoint.getEndpoint('$module/actualizarMetas');
 
     Map<String, dynamic> body = {
@@ -268,6 +268,4 @@ class UserProvider {
       return false;
     }
   }
-
-
 }
